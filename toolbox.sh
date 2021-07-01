@@ -34,7 +34,7 @@ function unload {
 function load {
     echo "Loading cheat..."
     echo 0 | doas tee /proc/sys/kernel/yama/ptrace_scope > /dev/null
-    doas cp build/libgamesneeze.so /usr/lib/$libname
+    doas cp build/libx352.so /usr/lib/$libname
     gdbOut=$(
       $gdb -n -q -batch \
       -ex "set auto-load safe-path /usr/lib/" \
@@ -55,7 +55,7 @@ function load {
 function load_debug {
     echo "Loading cheat..."
     echo 0 | doas tee /proc/sys/kernel/yama/ptrace_scope
-    doas cp build/libgamesneeze.so /usr/lib/$libname
+    doas cp build/libx352.so /usr/lib/$libname
     $gdb -n -q -batch \
         -ex "set auto-load safe-path /usr/lib:/usr/lib/" \
         -ex "attach $csgo_pid" \
@@ -120,7 +120,7 @@ case $keys in
     -h|--help)
         echo "
  help
-Toolbox script for gamesneeze the beste lincuck cheat 2021
+Toolbox script for x352 the bestere lincuck cheat 2021
 =======================================================================
 | Argument             | Description                                  |
 | -------------------- | -------------------------------------------- |

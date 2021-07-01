@@ -380,7 +380,7 @@ namespace Config {
         Config::cfgFiles.clear();
         char path[128];
         strcpy(path, getenv("HOME"));
-        strcat(path, "/.gamesneeze");
+        strcat(path, "/.x352");
         if (!std::filesystem::is_directory(path)) {
             std::filesystem::create_directory(path);
         }
@@ -481,7 +481,7 @@ namespace Config {
 
     inline void init() {
         strcpy(cfgDir, getenv("HOME"));
-        strcat(cfgDir, "/.gamesneeze/configs/");
+        strcat(cfgDir, "/.x352/configs/");
         reloadCfgList();
         if (cfgFiles.size() == 1) {
             strcpy(configFileName, cfgFiles[0].c_str());
