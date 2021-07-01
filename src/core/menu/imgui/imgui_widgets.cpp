@@ -685,7 +685,6 @@ bool ImGui::ButtonEx(const char* label, const ImVec2& size_arg, ImGuiButtonFlags
     b = (!pressed && hovered) ? ImColor(0.18f, 0.18f, 0.18f, 1.f) : ImColor(0.12f, 0.12f, 0.12f, 1.f);
 
     // Render
-    const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
     RenderNavHighlight(bb, id);
     RenderFrameGradient(bb.Min, bb.Max, t, t, b, b, true, style.FrameRounding);
     window->DrawList->AddRect(bb.Min + ImVec2(1, 1), bb.Max - ImVec2(1, 1), ImColor(0.24f, 0.24f, 0.24f, 1.f));
@@ -730,7 +729,6 @@ bool ImGui::ButtonExSpecial(const char* label, const ImVec2& size_arg, ImGuiButt
     b = (!pressed && hovered) ? ImColor(0.18f, 0.18f, 0.18f, 1.f) : ImColor(0.12f, 0.12f, 0.12f, 1.f);
 
     // Render
-    const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
     RenderNavHighlight(bb, id);
     RenderFrameGradient(bb.Min, bb.Max, t, t, b, b, true, style.FrameRounding);
     window->DrawList->AddRect(bb.Min + ImVec2(1, 1), bb.Max - ImVec2(1, 1), ImColor(0.24f, 0.24f, 0.24f, 1.f));
@@ -1143,9 +1141,6 @@ bool ImGui::Checkbox(const char* label, bool* v)
         //window->DrawList->AddRectFilledMultiColor(check_bb.Min + pad, check_bb.Max - pad, check_col, check_col, );
     } else if (*v)
     {
-        const float pad = ImMax(1.0f, IM_FLOOR(square_sz / 6.0f));
-        //RenderCheckMark(window->DrawList, check_bb.Min + ImVec2(pad, pad), check_col, square_sz - pad * 2.0f);
-        //RenderFrame(check_bb.Min + ImVec2(4, 6), check_bb.Max - ImVec2(6, 4), ImColor(200, 200, 200, 200), true, style.FrameRounding);
         RenderFrameGradient(check_bb.Min + ImVec2(4, 6), check_bb.Max - ImVec2(6, 4), t2, t2, b2, b2, true, style.FrameRounding);
     }
 
@@ -1590,17 +1585,15 @@ bool ImGui::BeginCombo(const char* label, const char* preview_value, ImGuiComboF
     bool popup_open = IsPopupOpen(id, ImGuiPopupFlags_None);
 
     ImColor t, b;
-    t = (popup_open || hovered) ? ImColor(0.18f, 0.18f, 0.18f, 1.f) : ImColor(0.12f, 0.12f, 0.12f, 1.f);
+    t = (popup_open || hovered) ? ImColor(0.16f, 0.16f, 0.16f, 1.f) : ImColor(0.12f, 0.12f, 0.12f, 1.f);
     b = (popup_open || hovered) ? ImColor(0.24f, 0.24f, 0.24f, 1.f) : ImColor(0.18f, 0.18f, 0.18f, 1.f);
 
-    const ImU32 frame_col = GetColorU32(ImGuiCol_FrameBg);
     const float value_x2 = ImMax(frame_bb.Min.x, frame_bb.Max.x - arrow_size);
     RenderNavHighlight(frame_bb, id);
     if (!(flags & ImGuiComboFlags_NoPreview))
         window->DrawList->AddRectFilledMultiColor(frame_bb.Min, ImVec2(value_x2, frame_bb.Max.y), t, t, b, b);//, style.FrameRounding, (flags & ImGuiComboFlags_NoArrowButton) ? ImDrawCornerFlags_All : ImDrawCornerFlags_Left);
     if (!(flags & ImGuiComboFlags_NoArrowButton))
     {
-        ImU32 bg_col = GetColorU32(ImGuiCol_Button);
         ImU32 text_col = GetColorU32(ImGuiCol_Text);
         window->DrawList->AddRectFilledMultiColor(ImVec2(value_x2, frame_bb.Min.y), frame_bb.Max, t, t, b, b);//, style.FrameRounding, (w <= arrow_size) ? ImDrawCornerFlags_All : ImDrawCornerFlags_Right);
         if (value_x2 + arrow_size - style.FramePadding.x <= frame_bb.Max.x)
@@ -2924,7 +2917,6 @@ bool ImGui::SliderScalar(const char* label, ImGuiDataType data_type, void* p_dat
     b2 = GetColorU32(ImVec4(mc.x * 0.66, mc.y * 0.66, mc.z * 0.66, 255.f));
 
     // Draw frame
-    const ImU32 frame_col = GetColorU32(ImGuiCol_FrameBg);
     RenderNavHighlight(frame_bb, id);
     RenderFrameGradient(frame_bb.Min + ImVec2(0, 5), frame_bb.Max - ImVec2(0, 5), t, t, b, b, true, g.Style.FrameRounding);
 
@@ -5553,7 +5545,7 @@ bool ImGui::ColorEdit4(const char* label, float col[4], ImGuiColorEditFlags flag
             ImGuiColorEditFlags picker_flags_to_forward = ImGuiColorEditFlags__DataTypeMask | ImGuiColorEditFlags__PickerMask | ImGuiColorEditFlags__InputMask | ImGuiColorEditFlags_HDR | ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_AlphaBar;
             ImGuiColorEditFlags picker_flags = (flags_untouched & picker_flags_to_forward) | ImGuiColorEditFlags__DisplayMask | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_AlphaPreviewHalf;
             SetNextItemWidth(square_sz * 12.0f); // Use 256 + bar sizes?
-            value_changed |= ColorPicker4("##picker", col, picker_flags, &g.ColorPickerRef.x);
+            value_changed |= ColorPicker4("##picker", col, picker_flags);
             EndPopup();
         }
     }
@@ -5649,7 +5641,7 @@ static void RenderArrowsForVerticalBar(ImDrawList* draw_list, ImVec2 pos, ImVec2
 // (In C++ the 'float col[4]' notation for a function argument is equivalent to 'float* col', we only specify a size to facilitate understanding of the code.)
 // FIXME: we adjust the big color square height based on item width, which may cause a flickering feedback loop (if automatic height makes a vertical scrollbar appears, affecting automatic width..)
 // FIXME: this is trying to be aware of style.Alpha but not fully correct. Also, the color wheel will have overlapping glitches with (style.Alpha < 1.0)
-bool ImGui::ColorPicker4(const char* label, float col[4], ImGuiColorEditFlags flags, const float* ref_col)
+bool ImGui::ColorPicker4(const char* label, float col[4], ImGuiColorEditFlags flags)
 {
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = GetCurrentWindow();
@@ -5990,9 +5982,8 @@ bool ImGui::ColorPicker4(const char* label, float col[4], ImGuiColorEditFlags fl
     }
 
     // Render cursor/preview circle (clamp S/V within 0..1 range because floating points colors may lead HSV values to be out of range)
-    float sv_cursor_rad = value_changed_sv ? 10.0f : 6.0f;
-    draw_list->AddRect(sv_cursor_pos - ImVec2(3, 3), sv_cursor_pos + ImVec2(3, 3), col_black);
-    draw_list->AddRectFilled(sv_cursor_pos - ImVec2(2, 2), sv_cursor_pos + ImVec2(2, 2), user_col32_striped_of_alpha);
+    draw_list->AddRect(sv_cursor_pos - ImVec2(2, 2), sv_cursor_pos + ImVec2(2, 2), col_black);
+    draw_list->AddRectFilled(sv_cursor_pos - ImVec2(1, 1), sv_cursor_pos + ImVec2(1, 1), user_col32_striped_of_alpha);
 
     // Render alpha bar
     if (alpha_bar)
