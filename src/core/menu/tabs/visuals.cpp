@@ -78,7 +78,7 @@ void Menu::drawVisualsTab() {
             ImGui::Columns(3, NULL, false);
             ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.33);
 
-            ImGui::BeginChild("Teammates", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.325f, ImGui::GetWindowHeight() * 0.57f), true); {
+            ImGui::BeginChild("Teammates", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.318f, ImGui::GetWindowHeight() * 0.57f), true); {
                 ImGui::Text("Teammates");
                 ImGui::Separator();
 
@@ -113,7 +113,7 @@ void Menu::drawVisualsTab() {
                 ImGui::EndChild();
             }
 
-            ImGui::BeginChild("Teammate Chams", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.325f, 0), true); {
+            ImGui::BeginChild("Teammate Chams", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.318f, 0), true); {
                 drawChamsWidget("Teammates",
                     &CONFIGINT("Visuals>Players>Teammates>Chams>Visible Material"), &CONFIGCOL("Visuals>Players>Teammates>Chams>Visible Color"),
                     &CONFIGINT("Visuals>Players>Teammates>Chams>Visible Overlay Material"), &CONFIGCOL("Visuals>Players>Teammates>Chams>Visible Overlay Color"),
@@ -127,7 +127,7 @@ void Menu::drawVisualsTab() {
             ImGui::NextColumn();
             ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.33);
 
-            ImGui::BeginChild("Enemies", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.325f, ImGui::GetWindowHeight() * 0.46f), true); {
+            ImGui::BeginChild("Enemies", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.318f, ImGui::GetWindowHeight() * 0.46f), true); {
                 ImGui::Text("Enemies");
                 ImGui::Separator();
 
@@ -166,7 +166,7 @@ void Menu::drawVisualsTab() {
                 ImGui::EndChild();
             }
 
-            ImGui::BeginChild("Enemy Chams", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.325f, 0), true); {
+            ImGui::BeginChild("Enemy Chams", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.318f, 0), true); {
                 drawChamsWidget("Enemies",
                     &CONFIGINT("Visuals>Players>Enemies>Chams>Visible Material"), &CONFIGCOL("Visuals>Players>Enemies>Chams>Visible Color"),
                     &CONFIGINT("Visuals>Players>Enemies>Chams>Visible Overlay Material"), &CONFIGCOL("Visuals>Players>Enemies>Chams>Visible Overlay Color"),
@@ -231,7 +231,7 @@ void Menu::drawVisualsTab() {
         if (ImGui::BeginTabItem("World")) {
             ImGui::Columns(2, NULL, false);
             ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.56);
-            ImGui::BeginChild("World", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.55f, ImGui::GetWindowHeight() * 0.402f), true); {
+            ImGui::BeginChild("World", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.548f, ImGui::GetWindowHeight() * 0.402f), true); {
                 ImGui::Text("World");
                 ImGui::Separator();
 
@@ -278,7 +278,7 @@ void Menu::drawVisualsTab() {
                 ImGui::EndChild();
             }
 
-            ImGui::BeginChild("World Modulation", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.55f, 0), true); {
+            ImGui::BeginChild("World Modulation", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.548f, 0), true); {
                 ImGui::Text("World Modulation");
                 ImGui::Separator();
 

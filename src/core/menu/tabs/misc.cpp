@@ -8,7 +8,7 @@ void Menu::drawMiscTab() {
             ImGui::Columns(3, NULL, false);
             ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.33);
 
-            ImGui::BeginChild("Config", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.325, 0), true); {
+            ImGui::BeginChild("Config", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.318, 0), true); {
                 ImGui::Text("Config");
                 ImGui::Separator();
 
@@ -46,7 +46,7 @@ void Menu::drawMiscTab() {
             ImGui::NextColumn();
             ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.33);
 
-            ImGui::BeginChild("Misc", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.325, ImGui::GetWindowHeight() * 0.60f), true); {
+            ImGui::BeginChild("Misc", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.318, ImGui::GetWindowHeight() * 0.60f), true); {
                 ImGui::Text("Misc");
                 ImGui::Separator();
 
@@ -86,7 +86,7 @@ void Menu::drawMiscTab() {
                 ImGui::EndChild();
             }
 
-            ImGui::BeginChild("Hitmarkers", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.325, 0), true); {
+            ImGui::BeginChild("Hitmarkers", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.318, 0), true); {
                 ImGui::Text("Hitmarkers");
                 ImGui::Separator();
                 ImGui::Checkbox("Hitlogs", &CONFIGBOOL("Misc>Misc>Hitmarkers>Hitlogs"));
