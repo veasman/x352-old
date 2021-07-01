@@ -14,10 +14,10 @@ void shiftMarquee(char* text, int size) {
 
 void updateClantag() {
     if ((TICKCOUNTWITHPING() % 128) > 96) {
-        Offsets::sendClantag(Menu::clantag, "ghub/seksea/gamesneeze\xe2\x80\xa8\xe2\x80\xa8\xe2\x80\xa8");
+        Offsets::sendClantag(Menu::clantag, "ghub/veasman/x352\xe2\x80\xa8\xe2\x80\xa8\xe2\x80\xa8");
     }
     else {
-        Offsets::sendClantag(Menu::clantag, "gamesneeze beste\xe2\x80\xa8\xe2\x80\xa8\xe2\x80\xa8");
+        Offsets::sendClantag(Menu::clantag, "x352 beste\xe2\x80\xa8\xe2\x80\xa8\xe2\x80\xa8");
     }
 }
 

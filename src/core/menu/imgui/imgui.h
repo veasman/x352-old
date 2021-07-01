@@ -1506,8 +1506,8 @@ struct ImGuiIO
     ImVec2      DisplaySize;                    // <unset>          // Main display size, in pixels.
     float       DeltaTime;                      // = 1.0f/60.0f     // Time elapsed since last frame, in seconds.
     float       IniSavingRate;                  // = 5.0f           // Minimum time between saving positions/sizes to .ini file, in seconds.
-    const char* IniFilename;                    // = "~/.gamesneeze/imgui.ini"    // Path to .ini file. Set NULL to disable automatic .ini loading/saving, if e.g. you want to manually load/save from memory.
-    const char* LogFilename;                    // = "~/.gamesneeze/imgui_log.txt"// Path to .log file (default parameter to ImGui::LogToFile when no file is specified).
+    const char* IniFilename;                    // = "~/.x352/imgui.ini"    // Path to .ini file. Set NULL to disable automatic .ini loading/saving, if e.g. you want to manually load/save from memory.
+    const char* LogFilename;                    // = "~/.x352/imgui_log.txt"// Path to .log file (default parameter to ImGui::LogToFile when no file is specified).
     float       MouseDoubleClickTime;           // = 0.30f          // Time for a double-click, in seconds.
     float       MouseDoubleClickMaxDist;        // = 6.0f           // Distance threshold to stay in to validate a double-click, in pixels.
     float       MouseDragThreshold;             // = 6.0f           // Distance threshold before considering we are dragging.
@@ -2463,4 +2463,3 @@ struct ImFont
 #endif
 
 #endif // #ifndef IMGUI_DISABLE
-
