@@ -42,9 +42,9 @@ void Menu::drawOverlay(ImDrawList* drawList) {
         int textPadding = 5;
 
         char watermarkText[64];
-        sprintf(watermarkText, "gamesneeze (%s - %s@%s) | %.0f fps | %i ms", distro, getpwuid(getuid())->pw_name, hostname, ImGui::GetIO().Framerate, ping);
+        sprintf(watermarkText, "x352cheats (%s - %s@%s) | %.0f fps | %i ms", distro, getpwuid(getuid())->pw_name, hostname, ImGui::GetIO().Framerate, ping);
 
-        int width = 290;
+        int width = 285;
         int height = 22;
 
         if (ImGui::GetIO().Framerate >= 100.f)
