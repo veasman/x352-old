@@ -1,22 +1,15 @@
 <p align="center">
-  <img src="/res/logo.png" alt="gamesneeze-linux">
+  <img src="/res/logo.png" alt="x352-linux">
   <a href="/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License"></a>
   <a><img src="https://img.shields.io/badge/OS-Linux-green.svg" alt="Linux"></a>
   <a><img src="https://img.shields.io/badge/Cheat-CS:GO-green.svg" alt="CS:GO cheat"></a>
   <a><img src="https://img.shields.io/badge/State-Unfinished-red.svg" alt="Unfinished"></a>
   <a><img src="https://img.shields.io/badge/Detection-Undetected-green.svg" alt="Detection: Unknown"></a>
-  <a href="https://gitter.im/gamesneeze/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link"><img src="https://img.shields.io/badge/Chat-Gitter-green.svg" alt="Gitter"></a>
-  <a href="https://discord.gg/SCHsWHFJMb"><img src="https://img.shields.io/badge/Chat-Discord-blue.svg" alt="Discord"></a>
 </p>
 
 An open source cheat for Counter-Strike: Global Offensive on Linux.
 
-## :warning: :warning: THIS IS A CHEAT FOR LINUX, IT WILL NOT INJECT IF YOU ARE ON WINDOWS, AND I'M NOT PLANNING ON PORTING ANYTIME SOON, DO NOT JOIN THE DISCORD ASKING FOR DLL :warning: :warning:
-
-
 ## Current Features
-
-### Features
 
  - Basic GDB injector
  - ImGui menu
@@ -40,7 +33,7 @@ An open source cheat for Counter-Strike: Global Offensive on Linux.
  - Skinchanger
  - Ragebot (currently in development and doesnt have awall so no mindmg/hitchance/autoshoot)
  - AntiAim (currently sways, need to fix lby breaker)
-
+ - Movement cheats (Jumpbug, humanoid bhop, edgebug, etc.)
 
 ## How to use
 
@@ -61,8 +54,8 @@ An open source cheat for Counter-Strike: Global Offensive on Linux.
 `sudo zypper install gcc gdb SDL2-devel cmake git llvm-clang llvm-gold`
 
 ```sh
-git clone https://github.com/seksea/gamesneeze
-cd gamesneeze
+git clone https://github.com/veasman/x352
+cd x352
 chmod +x toolbox.sh
 ./toolbox.sh -p -u -b -l # pull, unload cheat if currently injected, build and then load, use -h for help
 ```
@@ -85,12 +78,5 @@ All args are executed in the order they are written in, for example, "-u -b -l" 
 
 ## Found a bug or want to contribute to the project?
 
- - [Create a pull request](https://github.com/seksea/gamesneeze/compare) ([tutorial](https://github.com/yangsu/pull-request-tutorial))
- - [Report a bug](https://github.com/seksea/gamesneeze/issues/new)
-
-## [Todo](https://github.com/seksea/gamesneeze/projects/1)
-
-## Screenshots
-
-![Console Output](res/console.png)
-![Choms Output](res/chams.png)
+ - [Create a pull request](https://github.com/veasman/x352/compare) ([tutorial](https://github.com/yangsu/pull-request-tutorial))
+ - [Report a bug](https://github.com/veasman/x352/issues/new)
