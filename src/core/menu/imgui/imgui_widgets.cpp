@@ -2918,7 +2918,7 @@ bool ImGui::SliderScalar(const char* label, ImGuiDataType data_type, void* p_dat
 
     // Draw frame
     RenderNavHighlight(frame_bb, id);
-    RenderFrameGradient(frame_bb.Min + ImVec2(0, 5), frame_bb.Max - ImVec2(0, 5), t, t, b, b, true, g.Style.FrameRounding);
+    RenderFrameGradient(frame_bb.Min + ImVec2(0, 5), frame_bb.Max - ImVec2(0, 6), t, t, b, b, true, g.Style.FrameRounding);
 
     // Slider behavior
     ImRect grab_bb;
