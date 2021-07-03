@@ -57,12 +57,9 @@ void style() {
 
 
     ImGui::GetStyle().ScrollbarSize = 8;
-    //ImGui::GetStyle().FramePadding = ImVec2(2, 2);
-    //ImGui::GetStyle().TouchExtraPadding = ImVec2(20, 20);
     ImGui::GetStyle().FrameBorderSize = 1.f;
     ImGui::GetStyle().WindowPadding = ImVec2(20, 20);
     ImGui::GetStyle().DisplayWindowPadding = ImVec2(20, 20);
-    //ImGui::GetStyle().DisplaySafeAreaPadding = ImVec2(20, 20);
     ImGui::GetStyle().ScrollbarRounding = 0;
     ImGui::GetStyle().WindowRounding = 0;
     ImGui::GetStyle().ChildRounding = 0;
@@ -105,12 +102,6 @@ void Menu::onSwapWindow(SDL_Window* window) {
     if (Menu::open) {
         io.MouseDrawCursor = true; // TODO: find workaround at some point because ugly
         Menu::drawMenu();
-        if (devWindow) {
-            drawDevWindow();
-        }
-        if (demoWindow) {
-            ImGui::ShowDemoWindow();
-        }
     }
     else {
         io.MouseDrawCursor = false;

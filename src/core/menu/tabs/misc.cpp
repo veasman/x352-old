@@ -55,7 +55,6 @@ void Menu::drawMiscTab() {
                 ImGui::PopStyleVar();
                 ImGui::ColorEdit4("##Menu Color", (float*)&CONFIGCOL("Misc>Misc>Misc>Menu Color"), ImGuiColorEditFlags_NoInputs);
 
-                //ImGui::Checkbox("Developer window", &devWindow);
                 ImGui::Checkbox("Disable Watermark", &CONFIGBOOL("Misc>Misc>Misc>Disable Watermark"));
                 ImGui::Checkbox("Square Radar", &CONFIGBOOL("Misc>Misc>Misc>Force square radar"));
                 ImGui::Checkbox("Rank Revealer", &CONFIGBOOL("Misc>Misc>Misc>Rank Revealer"));
