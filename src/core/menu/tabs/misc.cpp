@@ -53,8 +53,7 @@ void Menu::drawMiscTab() {
                 ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(100, 5));
                 ImGui::TextIndent("Menu Color"); ImGui::SameLine();
                 ImGui::PopStyleVar();
-                if (ImGui::ColorEdit4("##Menu Color", (float*)&CONFIGCOL("Misc>Misc>Misc>Menu Color"), ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel))
-                    ImGui::GetStyle().Colors[ImGuiCol_MenuCol] = CONFIGCOL("Misc>Misc>Misc>Menu Color");
+                ImGui::ColorEdit4("##Menu Color", (float*)&CONFIGCOL("Misc>Misc>Misc>Menu Color"), ImGuiColorEditFlags_NoInputs);
 
                 //ImGui::Checkbox("Developer window", &devWindow);
                 ImGui::Checkbox("Disable Watermark", &CONFIGBOOL("Misc>Misc>Misc>Disable Watermark"));
@@ -106,7 +105,7 @@ void Menu::drawMiscTab() {
                 ImGui::InputTextIndent("##clantag-tbox", clantag, IM_ARRAYSIZE(clantag));
                 ImGui::Checkbox("Clantag", &CONFIGBOOL("Misc>Misc>Clantag>Clantag"));
                 ImGui::Checkbox("Marquee", &CONFIGBOOL("Misc>Misc>Clantag>Clantag Marquee"));
-                ImGui::Checkbox("Bee Movie Clantag", &CONFIGBOOL("Misc>Misc>Clantag>Bee Movie Clantag"));
+                //ImGui::Checkbox("Bee Movie Clantag", &CONFIGBOOL("Misc>Misc>Clantag>Bee Movie Clantag"));
                 ImGui::EndChild();
             }
 
