@@ -53,7 +53,7 @@ void style() {
     colors[ImGuiCol_NavWindowingDimBg]      = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
     colors[ImGuiCol_ModalWindowDimBg]       = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
     colors[ImGuiCol_Header]                 = ImVec4(0.05f, 0.41f, 0.06f, 0.62f);
-    //colors[ImGuiCol_MenuCol]                = ImVec4(0.54901f, 0.60784, 0.19607, 1.00f);
+    colors[ImGuiCol_MenuCol]                = CONFIGCOL("Misc>Misc>Misc>Menu Color");
 
 
     ImGui::GetStyle().ScrollbarSize = 8;
