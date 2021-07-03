@@ -124,76 +124,45 @@ void drawPlayer(Player* p) {
                 player_info_t info;
                 Interfaces::engine->GetPlayerInfo(p->index(), &info);
 
-                if (p->isEnemy()) {
+                if (!p->isEnemy() && !CONFIGBOOL("Visuals>Players>Teammates"))
+                    return;
 
-                    if (CONFIGBOOL("Visuals>Players>Enemies>Vis Check") ? (Globals::localPlayer->health() > 0 ? p->visible() : true) : true) {
-                        if (CONFIGBOOL("Visuals>Players>Enemies>Only When Dead") ? (Globals::localPlayer->health() == 0) : true) {
-                            std::stringstream rightText;
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Health"))
-                                rightText << p->health() << "hp\n";
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Money"))
-                                rightText << "$" << p->money() << "\n";
+                if (CONFIGBOOL("Visuals>Players>Vis Check") ? (Globals::localPlayer->health() > 0 ? p->visible() : true) : true) {
+                    if (CONFIGBOOL("Visuals>Players>Only When Dead") ? (Globals::localPlayer->health() == 0) : true) {
+                        std::stringstream rightText;
+                        if (CONFIGBOOL("Visuals>Players>Health"))
+                            rightText << p->health() << "hp\n";
+                        if (CONFIGBOOL("Visuals>Players>Money"))
+                            rightText << "$" << p->money() << "\n";
 
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Armor"))
-                                rightText << (p->helmet() ? "H" : "") << (p->armor() ? "K" : "") << "\n";
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Flashed") && p->flashDuration() > 3) //This value is quite strange
-                                rightText << "Flashed\n"; // TODO: Fully refactor
+                        if (CONFIGBOOL("Visuals>Players>Armor"))
+                            rightText << (p->helmet() ? "H" : "") << (p->armor() ? "K" : "") << "\n";
+                        if (CONFIGBOOL("Visuals>Players>Flashed") && p->flashDuration() > 3) //This value is quite strange
+                            rightText << "Flashed\n"; // TODO: Fully refactor
 
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Weapon")) {
-                                Weapon *weapon = (Weapon *) Interfaces::entityList->GetClientEntity((uintptr_t)p->activeWeapon() & 0xFFF); // GetClientEntityFromHandle is being gay
-                                if (weapon) {
-                                    try {
-                                        rightText << itemIndexMap.at(weapon->itemIndex()) << "\n";
-                                    }
-                                    catch(const std::exception & e) {
-                                        //Log::log(WARN, "itemDefinitionIndex %d not found!", ((Weapon*)ent)->itemIndex());
-                                    }
+                        if (CONFIGBOOL("Visuals>Players>Weapon")) {
+                            Weapon *weapon = (Weapon *) Interfaces::entityList->GetClientEntity((uintptr_t)p->activeWeapon() & 0xFFF); // GetClientEntityFromHandle is being gay
+                            if (weapon) {
+                                try {
+                                    rightText << itemIndexMap.at(weapon->itemIndex()) << "\n";
+                                }
+                                catch(const std::exception & e) {
+                                    //Log::log(WARN, "itemDefinitionIndex %d not found!", ((Weapon*)ent)->itemIndex());
                                 }
                             }
-
-                            drawBox(x, y, x2, y2, CONFIGBOOL("Visuals>Players>Enemies>Box"),
-                                        CONFIGCOL("Visuals>Players>Enemies>Box Color"), CONFIGBOOL("Visuals>Players>Enemies>Name") ? info.name : (char*)"",
-                                        (char*)rightText.str().c_str(), CONFIGBOOL("Visuals>Players>Enemies>Health Bar") ? p->health() : -1, CONFIGBOOL("Visuals>Players>Enemies>Dynamic Color"),
-                                        CONFIGCOL("Visuals>Players>Enemies>Health Bar Color"));
-
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Skeleton"))
-                                drawSkeleton(p, CONFIGCOL("Visuals>Players>Enemies>Skeleton Color"));
-
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Forwardtrack Dots"))
-                                drawForwardTrack(p);
                         }
+
+                        drawBox(x, y, x2, y2, CONFIGBOOL("Visuals>Players>Box"),
+                                    CONFIGCOL("Visuals>Players>Box Color"), CONFIGBOOL("Visuals>Players>Name") ? info.name : (char*)"",
+                                    (char*)rightText.str().c_str(), CONFIGBOOL("Visuals>Players>Health Bar") ? p->health() : -1, CONFIGBOOL("Visuals>Players>Dynamic Color"),
+                                    CONFIGCOL("Visuals>Players>Health Bar Color"));
+
+                        if (CONFIGBOOL("Visuals>Players>Skeleton"))
+                            drawSkeleton(p, CONFIGCOL("Visuals>Players>Skeleton Color"));
+
+                        if (CONFIGBOOL("Visuals>Players>Forwardtrack Dots"))
+                            drawForwardTrack(p);
                     }
-                }
-                else if (!p->isEnemy() &&
-                        ((Globals::localPlayer->health() == 0 && CONFIGBOOL("Visuals>Players>Teammates>Only When Dead")) || !CONFIGBOOL("Visuals>Players>Teammates>Only When Dead"))) {
-                    std::stringstream rightText;
-                    if (CONFIGBOOL("Visuals>Players>Teammates>Health"))
-                        rightText << p->health() << "hp\n";
-                    if (CONFIGBOOL("Visuals>Players>Teammates>Money"))
-                        rightText << "$" << p->money() << "\n";
-
-                    if (CONFIGBOOL("Visuals>Players>Teammates>Armor"))
-                        rightText << (p->helmet() ? "H" : "") << (p->armor() ? "K" : "") << "\n";
-
-                    if (CONFIGBOOL("Visuals>Players>Teammates>Weapon")) {
-                        Weapon *weapon = (Weapon *) Interfaces::entityList->GetClientEntity((uintptr_t)p->activeWeapon() & 0xFFF); // GetClientEntityFromHandle is being gay
-                        if (weapon) {
-                            try {
-                                rightText << itemIndexMap.at(weapon->itemIndex()) << "\n";
-                            }
-                            catch(const std::exception & e) {
-                                //Log::log(WARN, "itemDefinitionIndex %d not found!", ((Weapon*)ent)->itemIndex());
-                            }
-                        }
-                    }
-
-                    drawBox(x, y, x2, y2, CONFIGBOOL("Visuals>Players>Teammates>Box"),
-                                CONFIGCOL("Visuals>Players>Teammates>Box Color"), CONFIGBOOL("Visuals>Players>Teammates>Name") ? info.name : (char*)"",
-                                (char*)rightText.str().c_str(), CONFIGBOOL("Visuals>Players>Teammates>Health Bar") ? p->health() : -1, CONFIGBOOL("Visuals>Players>Teammates>Dynamic Color"),
-                                CONFIGCOL("Visuals>Players>Teammates>Health Bar Color"));
-
-                    if (CONFIGBOOL("Visuals>Players>Teammates>Skeleton"))
-                        drawSkeleton(p, CONFIGCOL("Visuals>Players>Teammates>Skeleton Color"));
                 }
             }
         }
@@ -209,9 +178,6 @@ void drawGenericEnt(Entity* ent, bool box, ImColor color, const char* label) {
 
 // TODO: Clean this shit up after you're done
 void drawHeadHeight(ImColor color) {
-    if (!Globals::localPlayer)
-        return;
-
     if (!CONFIGBOOL("Visuals>World>World>Head Height"))
         return;
 
@@ -269,128 +235,10 @@ void drawHeadHeight(ImColor color) {
 }
 
 void Features::ESP::draw() {
-    if (Interfaces::engine->IsInGame()) {
-        drawHeadHeight(CONFIGCOL("Visuals>World>World>Head Height Color"));
+    if (Interfaces::engine->IsInGame() && Interfaces::engine->IsConnected()) {
         if (Globals::localPlayer) {
-            // EB TESTING SHIT
-            //AnimState* animState = Globals::localPlayer->animState();
-
-            std::string toDraw;
-
-            // WHAT I KNOW:
-            //      - When we hit an EB we are still "in air"
-            //      - Our vertical velocity decreases
-            //      - Our horizontal velocity changes based on a few factors
-            //          - Fall speed before EB
-            //          - Horizontal speed before EB
-            //      - Since we are still "in air" some anim state stuff doesn't change
-            //          - landingAnimationTimeLeftUntilDone
-            //          - heightBeforeJump
-            //          - onGround (duh)
-            //
-            // WHAT I CAN DO WITH THIS INFO:
-            //      - Detect EB
-            //
-            // WHAT I CAN'T FIGURE OUT FOR THE LIFE OF ME:
-            //      - How do we detect an edge that we might hit
-            //
-            // WHAT I HAVE CONSIDERED:
-            //      - Tracing a circle around the player
-            //          - Every edge has a different surrounding area, so no
-            //            consistent way of checking if a trace hit and one
-            //            didn't to detect a nearby edge
-
-            /*toDraw += "lastAnimUpdateTime: " + std::to_string(animState->lastAnimUpdateTime) + "\n";
-            toDraw += "lastAnimUpdateFrame: " + std::to_string(animState->lastAnimUpdateFrame) + "\n";
-            toDraw += "eyePitch: " + std::to_string(animState->eyePitch) + "\n";
-            toDraw += "yaw: " + std::to_string(animState->yaw) + "\n";
-            toDraw += "pitch: " + std::to_string(animState->pitch) + "\n";
-            toDraw += "goalFeetYaw: " + std::to_string(animState->goalFeetYaw) + "\n";
-            toDraw += "currentFeetYaw: " + std::to_string(animState->currentFeetYaw) + "\n";
-            toDraw += "absMovementDirection: " + std::to_string(animState->absMovementDirection) + "\n";
-            toDraw += "lastAbsMovementDirection: " + std::to_string(animState->lastAbsMovementDirection) + "\n";
-            toDraw += "leanAmount: " + std::to_string(animState->leanAmount) + "\n";
-            toDraw += "feetCycle: " + std::to_string(animState->feetCycle) + "\n";
-            toDraw += "feetYawRate: " + std::to_string(animState->feetYawRate) + "\n";
-            toDraw += "duckProgress: " + std::to_string(animState->duckProgress) + "\n";
-            toDraw += "landingAnimationTimeLeftUntilDone: " + std::to_string(animState->landingAnimationTimeLeftUntilDone) + "\n";
-            toDraw += "origin.x: " + std::to_string(animState->origin.x) + "\n";
-            toDraw += "origin.y: " + std::to_string(animState->origin.y) + "\n";
-            toDraw += "origin.z: " + std::to_string(animState->origin.z) + "\n";
-            toDraw += "lastOrigin.x: " + std::to_string(animState->lastOrigin.x) + "\n";
-            toDraw += "lastOrigin.y: " + std::to_string(animState->lastOrigin.y) + "\n";
-            toDraw += "lastOrigin.z: " + std::to_string(animState->lastOrigin.z) + "\n";
-            toDraw += "velocityX: " + std::to_string(animState->velocityX) + "\n";
-            toDraw += "velocityY: " + std::to_string(animState->velocityY) + "\n";
-            toDraw += "currentDirectionX: " + std::to_string(animState->currentDirectionX) + "\n";
-            toDraw += "currentDirectionY: " + std::to_string(animState->currentDirectionY) + "\n";
-            toDraw += "lastKnownDirectionX: " + std::to_string(animState->lastKnownDirectionX) + "\n";
-            toDraw += "lastKnownDirectionY: " + std::to_string(animState->lastKnownDirectionY) + "\n";
-            toDraw += "horizontalVelocity: " + std::to_string(animState->horizontalVelocity) + "\n";
-            toDraw += "verticalVelocity: " + std::to_string(animState->verticalVelocity) + "\n";
-            toDraw += "speed: " + std::to_string(animState->speed) + "\n";
-            toDraw += "feetShuffleSpeed: " + std::to_string(animState->feetShuffleSpeed) + "\n";
-            toDraw += "feetShuffleSpeed2: " + std::to_string(animState->feetShuffleSpeed2) + "\n";
-            toDraw += "timeSinceStartedMoving: " + std::to_string(animState->timeSinceStartedMoving) + "\n";
-            toDraw += "timeSinceStoppedMoving: " + std::to_string(animState->timeSinceStoppedMoving) + "\n";
-            toDraw += "onGround: " + std::to_string(animState->onGround) + "\n";
-            toDraw += "inJumpRecoveryAnim: " + std::to_string(animState->inJumpRecoveryAnim) + "\n";
-            toDraw += "heightBeforeJump: " + std::to_string(animState->heightBeforeJump) + "\n";
-            toDraw += "runningAccelProgress: " + std::to_string(animState->runningAccelProgress) + "\n";
-
-            Globals::drawList->AddText(ImVec2(330 + 1, 150), ImColor(0, 0, 0), toDraw.c_str());
-            Globals::drawList->AddText(ImVec2(330, 150 + 1), ImColor(0, 0, 0), toDraw.c_str());
-            Globals::drawList->AddText(ImVec2(330, 150), ImColor(255, 255, 55), toDraw.c_str());*/
-
-            // TRACE TESTING SHIT
-            /*Vector origin = Globals::localPlayer->origin();
-            Trace trace;
-            Ray ray;
-            TraceFilter filter;
-            filter.pSkip = Globals::localPlayer;
-
-            Vector startpos = origin;
-            Vector endpos = startpos;
-            endpos.z -= 80;
-            Vector mins = Globals::localPlayer->collideable().OBBMins();
-            Vector maxs = Globals::localPlayer->collideable().OBBMaxs();
-
-            ray.Init(origin, endpos, mins, maxs);
-            Interfaces::trace->TraceRay(ray, MASK_SOLID_BRUSHONLY, &filter, &trace);
-
-            // EDGEBUG IDEA:
-            //               - Trace in a circle around the player
-            //               - If a trace hits in the back, but not the front
-            std::string toPrint;
-            toPrint += "plane->dist: " + std::to_string(trace.plane.dist) + "\n";
-            toPrint += "fraction: " + std::to_string((trace.fraction)) + "\n";
-            toPrint += "contents: " + std::to_string(trace.contents) + "\n";
-            toPrint += "dispFlags: " + std::to_string(trace.dispFlags) + "\n";
-            toPrint += "allsolid: " + std::to_string(trace.allsolid) + "\n";
-            toPrint += "startsolid: " + std::to_string(trace.startsolid) + "\n";
-            toPrint += "fractionLeftSolid: " + std::to_string(trace.fractionleftsolid) + "\n";
-            //toPrint += "surface->name: " + trace.surface.name + "\n";
-            toPrint += "surface->surfaceProps: " + std::to_string(trace.surface.surfaceProps) + "\n";
-            toPrint += "surface->flags: " + std::to_string(trace.surface.flags) + "\n";
-            toPrint += "hitgroup: " + std::to_string(trace.hitgroup) + "\n";
-            toPrint += "physicsBone: "  + std::to_string(trace.physicsbone) + "\n";
-            toPrint += "worldSurfaceIndex: " + std::to_string(trace.worldSurfaceIndex) + "\n";
-            //toPrint += "hitbox: " + std::to_string(trace.hitbox) + "\n";
-
-            Globals::drawList->AddText(ImVec2(400 + 1, 200 + 1), ImColor(0, 0, 0, 255), toPrint.c_str());
-            Globals::drawList->AddText(ImVec2(400, 200), ImColor(255, 255, 255, 255), toPrint.c_str());
-            Vector drawPos = trace.endpos;
-            Vector screenPos;
-            if (worldToScreen(drawPos, screenPos)) {
-                Globals::drawList->AddCircleFilled(ImVec2(screenPos.x, screenPos.y), 8, ImColor(255, 55, 255));
-                Globals::drawList->AddLine(ImVec2(screenPos.x + 8, screenPos.y), ImVec2(screenPos.x + 28, screenPos.y), ImColor(255, 55, 255));
-                Globals::drawList->AddLine(ImVec2(screenPos.x + 28, screenPos.y), ImVec2(screenPos.x + 48, screenPos.y - 20), ImColor(255, 55, 255));
-                Globals::drawList->AddText(ImVec2(screenPos.x + 53, screenPos.y - 29), ImColor(0, 0, 0, 255), "trEndPos");
-                Globals::drawList->AddText(ImVec2(screenPos.x + 52, screenPos.y - 30), ImColor(255, 255, 255), "trEndPos");
-            }*/
-        }
-        for (auto i : entityDistanceMap) {
-            if (Globals::localPlayer) {
+            drawHeadHeight(CONFIGCOL("Visuals>World>World>Head Height Color"));
+            for (auto i : entityDistanceMap) {
                 if (i.second != Interfaces::engine->GetLocalPlayer()) {
                     Entity* ent = (Entity*)Interfaces::entityList->GetClientEntity(i.second);
                     if (ent) {
