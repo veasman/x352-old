@@ -141,7 +141,4 @@ namespace Features {
         void edgeJump(CUserCmd* cmd);
         void jumpBug(CUserCmd* cmd);
     }
-    namespace VelocityText {
-        void draw();
-    }
 }
