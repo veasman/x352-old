@@ -5,7 +5,10 @@
 #include <filesystem>
 #include <string>
 
+#define ColorEdit(name, var, regionWidth, alpha)
+
 namespace Menu {
+    inline ImFont* tahoma;
     inline bool open = true;
     inline bool initialised = false;
     inline int tabSelected = 0;
