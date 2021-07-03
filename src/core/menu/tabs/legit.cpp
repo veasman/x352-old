@@ -47,6 +47,7 @@ void Menu::drawLegitTab() {
         ImGui::Separator();
         if (ImGui::BeginTabBar("Aim Weapons Tabbar")) {
             if (ImGui::BeginTabItem("Default")) {
+                ImGui::TextWrapped("Note from veas: \n Currently working on a menu rework. I'm sick of this menu. ESP rework will have to wait");
                 static bool keybindToggled;
                 Menu::CustomWidgets::drawKeyBinder("Key", &CONFIGINT("Legit>LegitBot>Default>Key"), &keybindToggled);
                 ImGui::SameLine();
