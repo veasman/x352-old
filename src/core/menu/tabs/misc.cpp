@@ -50,10 +50,11 @@ void Menu::drawMiscTab() {
                 ImGui::Text("Misc");
                 ImGui::Separator();
 
-                ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(100, 5));
-                ImGui::TextIndent("Menu Color"); ImGui::SameLine();
-                ImGui::PopStyleVar();
-                ImGui::ColorEdit4("##Menu Color", (float*)&CONFIGCOL("Misc>Misc>Misc>Menu Color"), ImGuiColorEditFlags_NoInputs);
+                ImGui::TextIndent("Menu Color");
+
+                COLORBOOL("##Menu Color", CONFIGCOL("Misc>Misc>Misc>Menu Color"), false) {
+                    ImGui::GetStyle().Colors[ImGuiCol_MenuCol] = CONFIGCOL("Misc>Misc>Misc>Menu Color");
+                }
 
                 ImGui::Checkbox("Disable Watermark", &CONFIGBOOL("Misc>Misc>Misc>Disable Watermark"));
                 ImGui::Checkbox("Square Radar", &CONFIGBOOL("Misc>Misc>Misc>Force square radar"));

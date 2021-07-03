@@ -5,7 +5,10 @@
 #include <filesystem>
 #include <string>
 
-#define ColorEdit(name, var, regionWidth, alpha)
+//#define GROUP(name, width, height) ImGui::SameLine(); ImGui::BeginChild(name, ImVec2(ImGui::GetWindowContentRegionWidth() * width, ImGui::GetWindowHeight() * height), true);
+//#define CHECKBOX(name, var) ImGui::Checkbox(name, &CONFIGBOOL(var));
+#define COLOR(name, var, alpha) ImGui::SameLine(); ImGui::SetCursorPosX(ImGui::GetWindowContentRegionWidth() - 4); ImGui::ColorEdit4(name, (float*)&var, alpha ? ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar : ImGuiColorEditFlags_NoInputs)
+#define COLORBOOL(name, var, alpha) ImGui::SameLine(); ImGui::SetCursorPosX(ImGui::GetWindowContentRegionWidth() - 4); if (ImGui::ColorEdit4(name, (float*)&var, alpha ? ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar : ImGuiColorEditFlags_NoInputs))
 
 namespace Menu {
     inline ImFont* tahoma;
