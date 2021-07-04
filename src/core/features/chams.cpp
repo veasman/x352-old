@@ -23,7 +23,17 @@ void createMaterials() {
     if (!init) {
         shadedMaterial = Interfaces::materialSystem->FindMaterial("debug/debugambientcube", 0);
         flatMaterial = Interfaces::materialSystem->FindMaterial("debug/debugdrawflat", 0);
-        plasticMaterial = Interfaces::materialSystem->FindMaterial("models/inventory_items/trophy_majors/gloss", 0);
+        //plasticMaterial = Interfaces::materialSystem->FindMaterial("models/inventory_items/trophy_majors/gloss", 0);
+        //const auto kv = KeyValues::fromString("VertexLitGeneric", "$baseTexture detail/dt_metal1 $additive 1 $envmap editor/cube_vertigo");
+        //kv->setString("$color", "[.05 .05 .05]");
+
+        plasticMaterial = createMaterial("plastic", "VertexLitGeneric",
+        R"#("VertexLitGeneric" {
+            "$baseTexture" "detail/dt_metal1"
+            "$additive" "1"
+            "$envmap" "editor/cube_vertigo"
+            "$color" "[.05 .05 .05]"
+        })#");
 
         multicolorMaterial = createMaterial("multicolor", "VertexLitGeneric",
         R"#("VertexLitGeneric" {
@@ -65,7 +75,7 @@ void cham(void* thisptr, void* ctx, const DrawModelState_t &state, const ModelRe
         case 4: material = glowMaterial; break;
     }
     if (enabled) {
-        if (material == plasticMaterial) {
+        if (material == plasticMaterial || material == glowMaterial) {
             shadedMaterial->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, ignoreZ);
             shadedMaterial->AlphaModulate(color.Value.w);
             shadedMaterial->ColorModulate(color.Value.x, color.Value.y, color.Value.z);
@@ -77,39 +87,18 @@ void cham(void* thisptr, void* ctx, const DrawModelState_t &state, const ModelRe
             Interfaces::modelRender->ForcedMaterialOverride(shadedMaterial);
             Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
 
-            material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, ignoreZ);
-            material->ColorModulate(255, 255, 255);
             bool overlayFound;
-            IMaterialVar* overlayVar = material->FindVar("$envmaptint", &found);
-            if (found) {
-                overlayVar->SetVecValue(255, 255, 255);
-            }
-            Interfaces::modelRender->ForcedMaterialOverride(material);
-            Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
-            Interfaces::modelRender->ForcedMaterialOverride(0);
-        } else if (material == glowMaterial) {
-            shadedMaterial->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, ignoreZ);
-            shadedMaterial->AlphaModulate(color.Value.w);
-            shadedMaterial->ColorModulate(color.Value.x, color.Value.y, color.Value.z);
-            bool found;
-            IMaterialVar* var = shadedMaterial->FindVar("$envmaptint", &found);
-            if (found) {
-                var->SetVecValue(color.Value.x, color.Value.y, color.Value.z);
-            }
-            Interfaces::modelRender->ForcedMaterialOverride(shadedMaterial);
-            Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
-
+            IMaterialVar* overlayVar = material->FindVar("$envmaptint", &overlayFound);
             material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, ignoreZ);
-            shadedMaterial->AlphaModulate(overlayColor.Value.w);
-            material->ColorModulate(overlayColor.Value.x, overlayColor.Value.y, overlayColor.Value.z);
-            bool overlayFound;
-            IMaterialVar* overlayVar = material->FindVar("$envmaptint", &found);
-            if (found) {
-                overlayVar->SetVecValue(overlayColor.Value.x, overlayColor.Value.y, overlayColor.Value.z);
+            if (material == plasticMaterial) {
+                material->AlphaModulate(overlayColor.Value.w);
+            } else {
+                material->AlphaModulate(overlayColor.Value.w);
+                material->ColorModulate(overlayColor.Value.x, overlayColor.Value.y, overlayColor.Value.z);
+                if (overlayFound) {
+                    overlayVar->SetVecValue(overlayColor.Value.x, overlayColor.Value.y, overlayColor.Value.z);
+                }
             }
-            Interfaces::modelRender->ForcedMaterialOverride(material);
-            Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
-            Interfaces::modelRender->ForcedMaterialOverride(0);
         } else {
             material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, ignoreZ);
             material->AlphaModulate(color.Value.w);
@@ -119,10 +108,10 @@ void cham(void* thisptr, void* ctx, const DrawModelState_t &state, const ModelRe
             if (found) {
                 var->SetVecValue(color.Value.x, color.Value.y, color.Value.z);
             }
-            Interfaces::modelRender->ForcedMaterialOverride(material);
-            Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
-            Interfaces::modelRender->ForcedMaterialOverride(0);
         }
+        Interfaces::modelRender->ForcedMaterialOverride(material);
+        Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
+        Interfaces::modelRender->ForcedMaterialOverride(0);
     } else {
         Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
     }
