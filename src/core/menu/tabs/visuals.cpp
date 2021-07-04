@@ -1,6 +1,6 @@
 #include "../menu.hpp"
 
-const char* chamsMaterials[] = { "Default", "Flat", "Metalllic", "Multicolor", "Glow" };
+const char* chamsMaterials[] = { "Default", "Flat", "Metallic", "Multicolor", "Glow" };
 
 void Menu::drawVisualsTab() {
     if (ImGui::BeginTabBar("##visTabs")) {
@@ -11,6 +11,8 @@ void Menu::drawVisualsTab() {
             ImGui::BeginChild("Enemies", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.488f, ImGui::GetWindowHeight() * 0.48f), true); {
                 ImGui::Text("Enemies");
                 ImGui::Separator();
+
+                ImGui::Checkbox("Teammates", &CONFIGBOOL("Visuals>Players>Teammates"));
 
                 ImGui::Checkbox("Box", &CONFIGBOOL("Visuals>Players>Box"));
                 COLOR("##Box Color", CONFIGCOL("Visuals>Players>Box Color"), false);
@@ -40,6 +42,72 @@ void Menu::drawVisualsTab() {
             }
 
             ImGui::BeginChild("Chams", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.488f, 0), true); {
+                ImGui::Checkbox("Enemies", &CONFIGBOOL("Visuals>Players>Chams>Enemies>Enabled"));
+                COLOR("##Enemy Visible Color", CONFIGCOL("Visuals>Players>Chams>Enemies>Visible Color"), true);
+
+                ImGui::Checkbox("Enemies Occluded", &CONFIGBOOL("Visuals>Players>Chams>Enemies>Occluded Enabled"));
+                COLOR("##Enemy Occluded Color", CONFIGCOL("Visuals>Players>Chams>Enemies>Occluded Color"), true);
+
+                if (CONFIGBOOL("Visuals>Players>Chams>Enemies>Enabled") || CONFIGBOOL("Visuals>Players>Chams>Enemies>Occluded Enabled")) {
+                    ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
+                    ImGui::Combo("##Enemy Material", &CONFIGINT("Visuals>Players>Chams>Enemies>Material"), chamsMaterials, IM_ARRAYSIZE(chamsMaterials));
+                    if (CONFIGINT("Visuals>Players>Chams>Enemies>Material") == 4) {
+                        COLOR("##Enemy Overlay Color", CONFIGCOL("Visuals>Players>Chams>Enemies>Overlay Color"), true);
+                    }
+                }
+
+                ImGui::Checkbox("Teammates", &CONFIGBOOL("Visuals>Players>Chams>Teammates>Enabled"));
+                COLOR("##Teammate Visible Color", CONFIGCOL("Visuals>Players>Chams>Teammates>Visible Color"), true);
+
+                ImGui::Checkbox("Teammates Occluded", &CONFIGBOOL("Visuals>Players>Chams>Teammates>Occluded Enabled"));
+                COLOR("##Teammate Occluded Color", CONFIGCOL("Visuals>Players>Chams>Teammates>Occluded Color"), true);
+
+                if (CONFIGBOOL("Visuals>Players>Chams>Teammates>Enabled") || CONFIGBOOL("Visuals>Players>Chams>Teammates>Occluded Enabled")) {
+                    COMBO("##Teammate Material", CONFIGINT("Visuals>Players>Chams>Teammates>Material"), chamsMaterials);
+                    if (CONFIGINT("Visuals>Players>Chams>Teammates>Material") == 4) {
+                        COLOR("##Teammate Overlay Color", CONFIGCOL("Visuals>Players>Chams>Teammates>Overlay Color"), true);
+                    }
+                }
+
+                ImGui::Checkbox("History", &CONFIGBOOL("Visuals>Players>Chams>Enemies>Backtrack Enabled"));
+                COLOR("##History Color", CONFIGCOL("Visuals>Players>Chams>Enemies>Backtrack Color"), true);
+
+                if (CONFIGBOOL("Visuals>Players>Chams>Enemies>Backtrack Enabled")) {
+                    COMBO("##History Material", CONFIGINT("Visuals>Players>Chams>Enemies>Backtrack Material"), chamsMaterials);
+                    if (CONFIGINT("Visuals>Players>Chams>Enemies>Backtrack Material") == 4) {
+                        COLOR("##History Overlay Color", CONFIGCOL("Visuals>Players>Chams>Enemies>Backtrack Overlay Color"), true);
+                    }
+                }
+
+                ImGui::Checkbox("Weapon", &CONFIGBOOL("Visuals>Players>Chams>Weapon Enabled"));
+                COLOR("##Weapon Color", CONFIGCOL("Visuals>Players>Chams>Weapon Color"), true);
+
+                if (CONFIGBOOL("Visuals>Players>Chams>Weapon Enabled")) {
+                    COMBO("##Weapon Material", CONFIGINT("Visuals>Players>Chams>Weapon Material"), chamsMaterials);
+                    if (CONFIGINT("Visuals>Players>Chams>Weapon Material") == 4) {
+                        COLOR("##Weapon Overlay Color", CONFIGCOL("Visuals>Players>Chams>Weapon Overlay Color"), true);
+                    }
+                }
+
+                ImGui::Checkbox("Arms", &CONFIGBOOL("Visuals>Players>Chams>Arms Enabled"));
+                COLOR("##Arms Color", CONFIGCOL("Visuals>Players>Chams>Arms Color"), true);
+
+                if (CONFIGBOOL("Visuals>Players>Chams>Arms Enabled")) {
+                    COMBO("##Arms Material", CONFIGINT("Visuals>Players>Chams>Arms Material"), chamsMaterials);
+                    if (CONFIGINT("Visuals>Players>Chams>Arms Material") == 4) {
+                        COLOR("##Arms Overlay Color", CONFIGCOL("Visuals>Players>Chams>Arms Overlay Color"), true);
+                    }
+                }
+
+                ImGui::Checkbox("Sleeves", &CONFIGBOOL("Visuals>Players>Chams>Sleeve Enabled"));
+                COLOR("##Sleeve Color", CONFIGCOL("Visuals>Players>Chams>Sleeve Color"), true);
+
+                if (CONFIGBOOL("Visuals>Players>Chams>Sleeve Enabled")) {
+                    COMBO("##Sleeves Material", CONFIGINT("Visuals>Players>Chams>Sleeve Material"), chamsMaterials);
+                    if (CONFIGINT("Visuals>Players>Chams>Sleeve Material") == 4) {
+                        COLOR("##Sleeves Overlay Color", CONFIGCOL("Visuals>Players>Chams>Sleeve Overlay Color"), true);
+                    }
+                }
 
                 ImGui::EndChild();
             }
@@ -50,13 +118,10 @@ void Menu::drawVisualsTab() {
                 ImGui::Text("LocalPlayer");
                 ImGui::Separator();
 
-                ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(28, 5));
                 ImGui::Checkbox("Spread Crosshair", &CONFIGBOOL("Visuals>Players>LocalPlayer>Spread Crosshair"));
-                ImGui::SameLine();
-                ImGui::PopStyleVar();
-                COLOR("##Crosshair Color", CONFIGCOL("Visuals>Players>LocalPlayer>Crosshair Color"), false);
-                ImGui::SameLine();
-                COLOR("##Crosshair Border Color", CONFIGCOL("Visuals>Players>LocalPlayer>Crosshair Border Color"), false);
+                COLOR("##Crosshair Color", CONFIGCOL("Visuals>Players>LocalPlayer>Crosshair Color"), true);
+                //COLOR("##Crosshair Border Color", CONFIGCOL("Visuals>Players>LocalPlayer>Crosshair Border Color"), true);
+
                 ImGui::Checkbox("Recoil Crosshair", &CONFIGBOOL("Visuals>Players>LocalPlayer>Recoil Crosshair"));
                 // Make sure they can't both be on at the same time
                 if (CONFIGBOOL("Visuals>Players>LocalPlayer>Recoil Crosshair") && !CONFIGBOOL("Visuals>Players>LocalPlayer>Spread Crosshair")) {

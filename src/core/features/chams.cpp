@@ -5,12 +5,9 @@
 
 IMaterial* shadedMaterial;
 IMaterial* flatMaterial;
-IMaterial* pulseMaterial;
-IMaterial* energyBallMaterial;
 IMaterial* glowMaterial;
 IMaterial* plasticMaterial;
-IMaterial* darudeMaterial;
-IMaterial* oilMaterial;
+IMaterial* multicolorMaterial;
 
 IMaterial* createMaterial(const char* materialName, const char* materialType, const char* material) {
 	KeyValues* keyValues = new KeyValues(materialName);
@@ -26,10 +23,23 @@ void createMaterials() {
     if (!init) {
         shadedMaterial = Interfaces::materialSystem->FindMaterial("debug/debugambientcube", 0);
         flatMaterial = Interfaces::materialSystem->FindMaterial("debug/debugdrawflat", 0);
-        pulseMaterial = Interfaces::materialSystem->FindMaterial("dev/screenhighlight_pulse", 0);
-        energyBallMaterial = Interfaces::materialSystem->FindMaterial("effects/energyball", 0);
         plasticMaterial = Interfaces::materialSystem->FindMaterial("models/inventory_items/trophy_majors/gloss", 0);
-        darudeMaterial = Interfaces::materialSystem->FindMaterial("models/inventory_items/music_kit/darude_01/mp3_detail", 0);
+
+        multicolorMaterial = createMaterial("multicolor", "VertexLitGeneric",
+        R"#("VertexLitGeneric" {
+            "$envmap" "editor/cube_vertigo"
+            "$envmapcontrast" "1"
+            "$envmaptint" "[.7 .7 .7]"
+            "$basetexture" "dev/zone_warning"
+            proxies {
+                texturescroll {
+                    texturescrollvar
+                    $basetexturetransform
+                    texturescrollrate 0.6
+                    texturescrollangle 90
+                }
+            }
+        })#");
 
         glowMaterial = createMaterial("glow", "VertexLitGeneric",
         R"#("VertexLitGeneric" {
@@ -41,48 +51,81 @@ void createMaterials() {
             "$alpha" "0.8"
         })#");
 
-        oilMaterial = createMaterial("pearlescent", "VertexLitGeneric",
-        R"#("VertexLitGeneric"
-        {
-            "$basetexture" "vgui/white_additive"
-            "$nocull" "1"
-            "$nofog" "1"
-            "$model" "1"
-            "$nocull" "0"
-            "$phong" "1"
-            "$phongboost" "0"
-            "$basemapalphaphongmask" "1"
-            "$pearlescent" "6"
-        })#");
-
         init = true;
     }
 }
 
-void cham(void* thisptr, void* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld, ImColor color, int mat, bool ignoreZ) {
+void cham(void* thisptr, void* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld, bool enabled, ImColor color, ImColor overlayColor, int mat, bool ignoreZ) {
     static IMaterial* material;
     switch(mat) {
-        case 0: Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld); return;
-        case 1: material = shadedMaterial;  break;
-        case 2: material = flatMaterial;  break;
-        case 3: material = pulseMaterial; break;
-        case 4: material = energyBallMaterial; break;
-        case 5: material = glowMaterial; break;
-        case 6: material = plasticMaterial; break;
-        case 7: material = darudeMaterial; break;
-        case 8: material = oilMaterial; break;
+        case 0: material = shadedMaterial;  break;
+        case 1: material = flatMaterial;  break;
+        case 2: material = plasticMaterial; break;
+        case 3: material = multicolorMaterial; break;
+        case 4: material = glowMaterial; break;
     }
-    material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, ignoreZ);
-    material->AlphaModulate(color.Value.w);
-    material->ColorModulate(color.Value.x, color.Value.y, color.Value.z);
-    bool found;
-    IMaterialVar* var = material->FindVar("$envmaptint", &found);
-    if (found) {
-        var->SetVecValue(color.Value.x, color.Value.y, color.Value.z);
+    if (enabled) {
+        if (material == plasticMaterial) {
+            shadedMaterial->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, ignoreZ);
+            shadedMaterial->AlphaModulate(color.Value.w);
+            shadedMaterial->ColorModulate(color.Value.x, color.Value.y, color.Value.z);
+            bool found;
+            IMaterialVar* var = shadedMaterial->FindVar("$envmaptint", &found);
+            if (found) {
+                var->SetVecValue(color.Value.x, color.Value.y, color.Value.z);
+            }
+            Interfaces::modelRender->ForcedMaterialOverride(shadedMaterial);
+            Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
+
+            material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, ignoreZ);
+            material->ColorModulate(255, 255, 255);
+            bool overlayFound;
+            IMaterialVar* overlayVar = material->FindVar("$envmaptint", &found);
+            if (found) {
+                overlayVar->SetVecValue(255, 255, 255);
+            }
+            Interfaces::modelRender->ForcedMaterialOverride(material);
+            Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
+            Interfaces::modelRender->ForcedMaterialOverride(0);
+        } else if (material == glowMaterial) {
+            shadedMaterial->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, ignoreZ);
+            shadedMaterial->AlphaModulate(color.Value.w);
+            shadedMaterial->ColorModulate(color.Value.x, color.Value.y, color.Value.z);
+            bool found;
+            IMaterialVar* var = shadedMaterial->FindVar("$envmaptint", &found);
+            if (found) {
+                var->SetVecValue(color.Value.x, color.Value.y, color.Value.z);
+            }
+            Interfaces::modelRender->ForcedMaterialOverride(shadedMaterial);
+            Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
+
+            material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, ignoreZ);
+            shadedMaterial->AlphaModulate(overlayColor.Value.w);
+            material->ColorModulate(overlayColor.Value.x, overlayColor.Value.y, overlayColor.Value.z);
+            bool overlayFound;
+            IMaterialVar* overlayVar = material->FindVar("$envmaptint", &found);
+            if (found) {
+                overlayVar->SetVecValue(overlayColor.Value.x, overlayColor.Value.y, overlayColor.Value.z);
+            }
+            Interfaces::modelRender->ForcedMaterialOverride(material);
+            Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
+            Interfaces::modelRender->ForcedMaterialOverride(0);
+        } else {
+            material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, ignoreZ);
+            material->AlphaModulate(color.Value.w);
+            material->ColorModulate(color.Value.x, color.Value.y, color.Value.z);
+            bool found;
+            IMaterialVar* var = material->FindVar("$envmaptint", &found);
+            if (found) {
+                var->SetVecValue(color.Value.x, color.Value.y, color.Value.z);
+            }
+            Interfaces::modelRender->ForcedMaterialOverride(material);
+            Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
+            Interfaces::modelRender->ForcedMaterialOverride(0);
+        }
+    } else {
+        Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
     }
-    Interfaces::modelRender->ForcedMaterialOverride(material);
-    Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
-    Interfaces::modelRender->ForcedMaterialOverride(0);
 }
 
 void chamPlayer(void* thisptr, void* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld) {
@@ -90,37 +133,16 @@ void chamPlayer(void* thisptr, void* ctx, const DrawModelState_t &state, const M
     if (Globals::localPlayer) {
         if (p->health() > 0) {
             if (p->isEnemy()) {
-                /* Ignorez Enemy */
-                if (CONFIGINT("Visuals>Players>Enemies>Chams>Occluded Material")) {
-                    cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>Enemies>Chams>Occluded Color"), CONFIGINT("Visuals>Players>Enemies>Chams>Occluded Material"), true);
-                }
-                /* Visible Enemy */
-                cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>Enemies>Chams>Visible Color"), CONFIGINT("Visuals>Players>Enemies>Chams>Visible Material"), false);
-                /* Visible Enemy Overlay */
-                if (CONFIGINT("Visuals>Players>Enemies>Chams>Visible Overlay Material")) {
-                    cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>Enemies>Chams>Visible Overlay Color"), CONFIGINT("Visuals>Players>Enemies>Chams>Visible Overlay Material"), false);
-                }
+                cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Players>Chams>Enemies>Occluded Enabled"), CONFIGCOL("Visuals>Players>Chams>Enemies>Occluded Color"), CONFIGCOL("Visuals>Players>Chams>Enemies>Overlay Color"), CONFIGINT("Visuals>Players>Chams>Enemies>Material"), true);
+                cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Players>Chams>Enemies>Enabled"), CONFIGCOL("Visuals>Players>Chams>Enemies>Visible Color"), CONFIGCOL("Visuals>Players>Chams>Enemies>Overlay Color"), CONFIGINT("Visuals>Players>Chams>Enemies>Material"), false);
 
                 if (CONFIGBOOL("Legit>Backtrack>Backtrack") && !CONFIGBOOL("Rage>Enabled")) {
-                    if (Features::Backtrack::backtrackTicks.size() > 2) {
-                        if (CONFIGINT("Visuals>Players>Enemies>Chams>Backtrack Material")) {
-                            if (CONFIGBOOL("Visuals>Players>Enemies>Chams>Trail")) {
-                                for (Features::Backtrack::BackTrackTick tick : Features::Backtrack::backtrackTicks) {
-                                    if (tick.tickCount % 2 == 0) { // only draw every other tick to reduce lag
-                                        if (tick.players.find(p->index()) != tick.players.end()) {
-                                            if (abs((tick.players.at(p->index()).playerHeadPos - p->getBonePos(8)).Length()) > 2) {
-                                                cham(thisptr, ctx, state, pInfo, tick.players.at(p->index()).boneMatrix, CONFIGCOL("Visuals>Players>Enemies>Chams>Backtrack Color"), CONFIGINT("Visuals>Players>Enemies>Chams>Backtrack Material"), false);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            else {
-                                Features::Backtrack::BackTrackTick tick = Features::Backtrack::backtrackTicks.at(Features::Backtrack::backtrackTicks.size()-1);
-                                if (tick.players.find(p->index()) != tick.players.end()) {
-                                    if (abs((tick.players.at(p->index()).playerHeadPos - p->getBonePos(8)).Length()) > 2) {
-                                        cham(thisptr, ctx, state, pInfo, tick.players.at(p->index()).boneMatrix, CONFIGCOL("Visuals>Players>Enemies>Chams>Backtrack Color"), CONFIGINT("Visuals>Players>Enemies>Chams>Backtrack Material"), false);
-                                    }
+                    if (CONFIGBOOL("Visuals>Players>Chams>Enemies>Backtrack Enabled")) {
+                        if (Features::Backtrack::backtrackTicks.size() > 2) {
+                            Features::Backtrack::BackTrackTick tick = Features::Backtrack::backtrackTicks.at(Features::Backtrack::backtrackTicks.size()-1);
+                            if (tick.players.find(p->index()) != tick.players.end()) {
+                                if (fabsf((tick.players.at(p->index()).playerHeadPos - p->getBonePos(8)).Length2D()) > 2) {
+                                    cham(thisptr, ctx, state, pInfo, tick.players.at(p->index()).boneMatrix, true, CONFIGCOL("Visuals>Players>Chams>Enemies>Backtrack Color"), CONFIGCOL("Visuals>Players>Chams>Enemies>Backtrack Overlay Color"), CONFIGINT("Visuals>Players>Chams>Enemies>Backtrack Material"), false);
                                 }
                             }
                         }
@@ -128,16 +150,8 @@ void chamPlayer(void* thisptr, void* ctx, const DrawModelState_t &state, const M
                 }
             }
             else {
-                /* Ignorez Teammate */
-                if (CONFIGINT("Visuals>Players>Teammates>Chams>Occluded Material")) {
-                    cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>Teammates>Chams>Occluded Color"), CONFIGINT("Visuals>Players>Teammates>Chams>Occluded Material"), true);
-                }
-                /* Visible Teammate */
-                cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>Teammates>Chams>Visible Color"), CONFIGINT("Visuals>Players>Teammates>Chams>Visible Material"), false);
-                /* Visible Teammate Overlay */
-                if (CONFIGINT("Visuals>Players>Teammates>Chams>Visible Overlay Material")) {
-                    cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>Teammates>Chams>Visible Overlay Color"), CONFIGINT("Visuals>Players>Teammates>Chams>Visible Overlay Material"), false);
-                }
+                cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Playes>Chams>Teammates>Occluded Enabled"), CONFIGCOL("Visuals>Players>Chams>Teammates>Occluded Color"), CONFIGCOL("Visuals>Players>Chams>Teammates>Overlay Color"), CONFIGINT("Visuals>Players>Chams>Teammates>Material"), true);
+                cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Playes>Chams>Teammates>Enabled"), CONFIGCOL("Visuals>Players>Chams>Teammates>Visible Color"), CONFIGCOL("Visuals>Players>Chams>Teammates>Overlay Color"), CONFIGINT("Visuals>Players>Chams>Teammates>Material"), false);
             }
         }
         else {
@@ -147,29 +161,17 @@ void chamPlayer(void* thisptr, void* ctx, const DrawModelState_t &state, const M
 }
 
 void chamArms(void* thisptr, void* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld) {
-    cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>LocalPlayer>Arms Color"), CONFIGINT("Visuals>Players>LocalPlayer>Arms Material"), false);
-    /* Arms Overlay */
-    if (CONFIGINT("Visuals>Players>LocalPlayer>Arms Overlay Material")) {
-        cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>LocalPlayer>Arms Overlay Color"), CONFIGINT("Visuals>Players>LocalPlayer>Arms Overlay Material"), false);
-    }
+    cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Players>Chams>Arms Enabled"), CONFIGCOL("Visuals>Players>Chams>Arms Color"), CONFIGCOL("Visuals>Players>Chams>Arms Overlay Color"), CONFIGINT("Visuals>Players>Chams>Arms Material"), false);
 }
 
 void chamSleeves(void* thisptr, void* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld) {
-    cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>LocalPlayer>Sleeve Color"), CONFIGINT("Visuals>Players>LocalPlayer>Sleeve Material"), false);
-    /* Arms Overlay */
-    if (CONFIGINT("Visuals>Players>LocalPlayer>Sleeve Overlay Material")) {
-        cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>LocalPlayer>Sleeve Overlay Color"), CONFIGINT("Visuals>Players>LocalPlayer>Sleeve Overlay Material"), false);
-    }
+    cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Players>Chams>Sleeve Enabled"), CONFIGCOL("Visuals>Players>Chams>Sleeve Color"), CONFIGCOL("Visuals>Players>Chams>Sleeve Overlay Color"), CONFIGINT("Visuals>Players>Chams>Sleeve Material"), false);
 }
 
 void chamWeapon(void* thisptr, void* ctx, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld) {
     if (Globals::localPlayer) {
         if (!Globals::localPlayer->scoped()) {
-            cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>LocalPlayer>Weapon Color"), CONFIGINT("Visuals>Players>LocalPlayer>Weapon Material"), false);
-            /* Weapon Overlay */
-            if (CONFIGINT("Visuals>Players>LocalPlayer>Weapon Overlay Material")) {
-                cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGCOL("Visuals>Players>LocalPlayer>Weapon Overlay Color"), CONFIGINT("Visuals>Players>LocalPlayer>Weapon Overlay Material"), false);
-            }
+            cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Players>Chams>Weapon Enabled"), CONFIGCOL("Visuals>Players>Chams>Weapon Color"), CONFIGCOL("Visuals>Players>Chams>Weapon Overlay Color"), CONFIGINT("Visuals>Players>Chams>Weapon Material"), false);
         }
         else {
             Hooks::DrawModelExecute::original(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
@@ -182,6 +184,8 @@ void Features::Chams::drawModelExecute(void* thisptr, void* ctx, const DrawModel
     createMaterials();
 
 	const char* modelName = Interfaces::modelInfo->GetModelName(pInfo.pModel);
+
+    // TODO: Why do the shadows go bye bye?
 	if (strstr(modelName, "models/player") && !strstr(modelName, "shadow")) {
         chamPlayer(thisptr, ctx, state, pInfo, pCustomBoneToWorld);
     }
