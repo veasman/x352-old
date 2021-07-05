@@ -3,18 +3,14 @@
 const char* antiAimTypes[] = {"None", "Static", "Jitter", "Fake Jitter", "Real Jitter", "SpingBot (p100)"};
 
 void Menu::drawRageTab() {
-    ImGui::Checkbox("Enabled", &CONFIGBOOL("Rage>Enabled"));
-    ImGui::SameLine();
-    ImGui::TextDisabled("?");
-    if (ImGui::IsItemHovered())
-        ImGui::SetTooltip("Ragebot is in incredibly early development so don't expect much right now. It currently \n doesnt do any kind of bullet sim (no awall/mindmg) so you have to click yourself and headbone is forced");
-    ImGui::Separator();
-
-    ImGui::BeginChild("Rage", ImVec2((ImGui::GetWindowContentRegionWidth()/2) - 4, 520), true); {
+    ImGui::BeginChild("Rage", ImVec2((ImGui::GetWindowContentRegionWidth()/2) - 4, 0), true); {
         ImGui::Text("RageBot");
         ImGui::Separator();
-        if (ImGui::BeginTabBar("Weapons Tabbar")) {
-            if (ImGui::BeginTabItem("Default")) {
+        ImGui::Checkbox("Enabled", &CONFIGBOOL("Rage>RageBot>Enabled"));
+        // NOTE: This will only be needed *if* I built out the ragebot.
+        //       Commenting it out for now, so the menu looks nicer.
+        //if (ImGui::BeginTabBar("Weapons Tabbar")) {
+            //if (ImGui::BeginTabItem("Default")) {
                 ImGui::Checkbox("Resolver", &CONFIGBOOL("Rage>RageBot>Default>Resolver"));
                 ImGui::Checkbox("Force Baim if health < X", &CONFIGBOOL("Rage>RageBot>Default>ForceBaim"));
                 if(CONFIGBOOL("Rage>RageBot>Default>ForceBaim")) {
@@ -24,16 +20,18 @@ void Menu::drawRageTab() {
                 ImGui::TextIndent("FOV (x10)");
                 ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
                 ImGui::SliderInt("##FOV", &CONFIGINT("Rage>RageBot>Default>FOV"), 0, 1800);
-                ImGui::EndTabItem();
-            }
-            ImGui::EndTabBar();
-        }
+                //ImGui::EndTabItem();
+            //}
+            //ImGui::EndTabBar();
+        //}
         ImGui::EndChild();
     }
     ImGui::SameLine();
-    ImGui::BeginChild("Anti-Aim", ImVec2((ImGui::GetWindowContentRegionWidth()/2) - 4, 520), true); {
+    ImGui::BeginChild("Anti-Aim", ImVec2(0, 0), true); {
         ImGui::Text("Anti-Aim");
         ImGui::Separator();
+
+        ImGui::Checkbox("Enabled", &CONFIGBOOL("Rage>AntiAim>Enabled"));
 
         ImGui::TextIndent("Type");
         ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());

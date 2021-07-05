@@ -68,28 +68,28 @@ namespace Config {
                 // Default {
                     CONFIGITEM("Legit>LegitBot>Default>Key", 0),
                     CONFIGITEM("Legit>LegitBot>Default>Always on", false),
-                    CONFIGITEM("Legit>LegitBot>Default>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Default>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Default>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Default>Smoothing", 0),
                     CONFIGITEM("Legit>LegitBot>Default>Recoil Compensation", false),
                     CONFIGITEM("Legit>LegitBot>Default>Aim While Blind", false),
                 //}
                 // Pistol {
-                    CONFIGITEM("Legit>LegitBot>Pistol>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Pistol>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Pistol>Override", false),
                     CONFIGITEM("Legit>LegitBot>Pistol>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Pistol>Smoothing", 0),
                     CONFIGITEM("Legit>LegitBot>Pistol>Aim While Blind", false),
                 //}
                 // Heavy Pistol {
-                    CONFIGITEM("Legit>LegitBot>Heavy Pistol>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Heavy Pistol>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Heavy Pistol>Override", false),
                     CONFIGITEM("Legit>LegitBot>Heavy Pistol>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Heavy Pistol>Smoothing", 0),
                     CONFIGITEM("Legit>LegitBot>Heavy Pistol>Aim While Blind", false),
                 //}
                 // Rifle {
-                    CONFIGITEM("Legit>LegitBot>Rifle>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Rifle>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Rifle>Override", false),
                     CONFIGITEM("Legit>LegitBot>Rifle>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Rifle>Smoothing", 0),
@@ -97,7 +97,7 @@ namespace Config {
                     CONFIGITEM("Legit>LegitBot>Rifle>Aim While Blind", false),
                 //}
                 // SMG {
-                    CONFIGITEM("Legit>LegitBot>SMG>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>SMG>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>SMG>Override", false),
                     CONFIGITEM("Legit>LegitBot>SMG>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>SMG>Smoothing", 0),
@@ -105,21 +105,21 @@ namespace Config {
                     CONFIGITEM("Legit>LegitBot>SMG>Aim While Blind", false),
                 //}
                 // Scout {
-                    CONFIGITEM("Legit>LegitBot>Scout>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Scout>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Scout>Override", false),
                     CONFIGITEM("Legit>LegitBot>Scout>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Scout>Smoothing", 0),
                     CONFIGITEM("Legit>LegitBot>Scout>Aim While Blind", false),
                 //}
                 // AWP {
-                    CONFIGITEM("Legit>LegitBot>AWP>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>AWP>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>AWP>Override", false),
                     CONFIGITEM("Legit>LegitBot>AWP>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>AWP>Smoothing", 0),
                     CONFIGITEM("Legit>LegitBot>AWP>Aim While Blind", false),
                 //}
                 // Heavy {
-                    CONFIGITEM("Legit>LegitBot>Heavy>Hitboxes", 1),
+                    CONFIGITEM("Legit>LegitBot>Heavy>Hitboxes", 0),
                     CONFIGITEM("Legit>LegitBot>Heavy>Override", false),
                     CONFIGITEM("Legit>LegitBot>Heavy>FOV", 0),
                     CONFIGITEM("Legit>LegitBot>Heavy>Smoothing", 0),
@@ -143,12 +143,13 @@ namespace Config {
         // }
         // RageBot {
             // Default {
-                CONFIGITEM("Rage>Enabled", false),
+                CONFIGITEM("Rage>RageBot>Enabled", false),
                 CONFIGITEM("Rage>RageBot>Default>Resolver", false),
                 CONFIGITEM("Rage>RageBot>Default>FOV", 0),
                 CONFIGITEM("Rage>RageBot>Default>ForceBaim", false),
                 CONFIGITEM("Rage>RageBot>Default>ForceBaimValue", 0),
 
+                CONFIGITEM("Rage>AntiAim>Enabled", false),
                 CONFIGITEM("Rage>AntiAim>Type", 0),
                 CONFIGITEM("Rage>AntiAim>Pitch", 89),
                 CONFIGITEM("Rage>AntiAim>Offset", 180),

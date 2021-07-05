@@ -30,7 +30,7 @@ void Features::AntiAim::createMove(CUserCmd* cmd) {
                             if (CONFIGINT("Rage>AntiAim>Type")) {
                                 // TODO: for some reason it refuses to desync when looking forward???!?!?
 
-                                //cmd->viewangles.x = CONFIGINT("Rage>AntiAim>Pitch");
+                                cmd->viewangles.x = CONFIGINT("Rage>AntiAim>Pitch");
 
                                 int real = 0;
                                 int fake = 0;

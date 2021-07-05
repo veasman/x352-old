@@ -56,9 +56,11 @@ bool Hooks::CreateMove::hook(void* thisptr, float flInputSampleTime, CUserCmd* c
             oldVel = vel.z;*/
 
             Features::Prediction::start(cmd);
-                if (CONFIGBOOL("Rage>Enabled")) {
-                    Features::RageBot::createMove(cmd);
-                    Features::AntiAim::createMove(cmd);
+                if (CONFIGBOOL("Rage>RageBot>Enabled") || CONFIGBOOL("Rage>AntiAim>Enabled")) {
+                    if (CONFIGBOOL("Rage>RageBot>Enabled"))
+                        Features::RageBot::createMove(cmd);
+                    if (CONFIGBOOL("Rage>AntiAim>Enabled"))
+                        Features::AntiAim::createMove(cmd);
                 }
                 else {
                     Features::LegitBot::createMove(cmd);
@@ -88,5 +90,5 @@ bool Hooks::CreateMove::hook(void* thisptr, float flInputSampleTime, CUserCmd* c
         cmd->viewangles.z = 0.0f;
     }
 
-    return !(CONFIGBOOL("Rage>Enabled")); // return false when we want to do silent angles for rb
+    return !(CONFIGBOOL("Rage>RageBot>Enabled")); // return false when we want to do silent angles for rb
 }
