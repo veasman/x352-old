@@ -680,14 +680,15 @@ bool ImGui::ButtonEx(const char* label, const ImVec2& size_arg, ImGuiButtonFlags
     bool hovered, held;
     bool pressed = ButtonBehavior(bb, id, &hovered, &held, flags);
 
-    ImColor t, b;
-    t = (!pressed && hovered) ? ImColor(0.24f, 0.24f, 0.24f, 1.f) : ImColor(0.18f, 0.18f, 0.18f, 1.f);
-    b = (!pressed && hovered) ? ImColor(0.18f, 0.18f, 0.18f, 1.f) : ImColor(0.12f, 0.12f, 0.12f, 1.f);
+    ImColor top, bottom;
+    top = (!pressed && hovered) ? GetColorU32(ImGuiCol_ButtonHovered) : GetColorU32(ImGuiCol_Button);
+    bottom = ImColor(top.Value.x * 0.66, top.Value.y * 0.66, top.Value.z * 0.66, top.Value.w);
 
     // Render
     RenderNavHighlight(bb, id);
-    RenderFrameGradient(bb.Min, bb.Max, t, t, b, b, true, style.FrameRounding);
-    window->DrawList->AddRect(bb.Min + ImVec2(1, 1), bb.Max - ImVec2(1, 1), ImColor(0.24f, 0.24f, 0.24f, 1.f));
+    RenderFrameGradient(bb.Min, bb.Max, top, top, bottom, bottom, true, style.FrameRounding);
+    if (GetStyle().FrameBorderSize > 0.f)
+        window->DrawList->AddRect(bb.Min + ImVec2(1, 1), bb.Max - ImVec2(1, 1), ImColor(0.24f, 0.24f, 0.24f, 1.00f));
     RenderTextClipped(bb.Min + style.FramePadding, bb.Max - style.FramePadding, label, NULL, &label_size, style.ButtonTextAlign, &bb);
 
     // Automatically close popups
@@ -5421,7 +5422,7 @@ bool ImGui::ColorEdit4(const char* label, float col[4], ImGuiColorEditFlags flag
     IM_ASSERT(ImIsPowerOfTwo(flags & ImGuiColorEditFlags__InputMask));   // Check that only 1 is selected
 
     const bool alpha = (flags & ImGuiColorEditFlags_NoAlpha) == 0;
-    const bool hdr = (flags & ImGuiColorEditFlags_HDR) != 0;
+    //const bool hdr = (flags & ImGuiColorEditFlags_HDR) != 0;
     const int components = alpha ? 4 : 3;
 
     // Convert to the formats we need

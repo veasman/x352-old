@@ -14,8 +14,8 @@ void hitboxSelectBox(const char* configVarName) {
                      << (curSelected & (int)HitBoxes::STOMACH ? ", Stomach" : "")
                      << (curSelected & (int)HitBoxes::PELVIS ? ", Pelvis" : "");
 
-    if (selectedHitboxes.str().length() < 34) {
-        selectedHitboxes << "...";
+    if (selectedHitboxes.str().length() < 1) {
+        selectedHitboxes << "-";
     }
 
     if (ImGui::BeginCombo("##HitBoxes", selectedHitboxes.str().c_str())) {

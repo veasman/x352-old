@@ -2,6 +2,23 @@
 #include "imgui/imgui.h"
 #include "roboto.hpp"
 
+void drawBorder(ImVec2 pos, ImVec2 size, ImDrawList* drawList) {
+    std::vector<ImColor> colors = {
+        ImColor(0, 0, 0),
+        ImColor(55, 55, 55),
+        ImColor(40, 40, 40),
+        ImColor(40, 40, 40),
+        ImColor(40, 40, 40),
+        ImColor(55, 55, 55),
+        ImColor(0, 0, 0),
+    };
+
+    for (int i = 0; i < (int)colors.size(); i++) {
+        drawList->AddRect(ImVec2(pos.x - i, pos.y - i),
+                      ImVec2(pos.x + size.x + i, pos.y + size.y + i), colors[i]);
+    }
+}
+
 void style() {
     ImVec4* colors = ImGui::GetStyle().Colors;
     colors[ImGuiCol_Text]                   = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
@@ -25,9 +42,9 @@ void style() {
     colors[ImGuiCol_CheckMark]              = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
     colors[ImGuiCol_SliderGrab]             = ImVec4(0.46f, 0.46f, 0.46f, 1.00f);
     colors[ImGuiCol_SliderGrabActive]       = ImVec4(0.70f, 0.70f, 0.70f, 1.00f);
-    colors[ImGuiCol_Button]                 = ImVec4(0.12f, 0.50f, 0.04f, 0.62f);
-    colors[ImGuiCol_ButtonHovered]          = ImVec4(0.24f, 0.81f, 0.19f, 0.40f);
-    colors[ImGuiCol_ButtonActive]           = ImVec4(0.05f, 0.95f, 0.04f, 0.40f);
+    colors[ImGuiCol_Button]                 = ImVec4(0.18f, 0.18f, 0.18f, 1.00f);
+    colors[ImGuiCol_ButtonHovered]          = ImVec4(0.24f, 0.24f, 0.24f, 1.00f);
+    colors[ImGuiCol_ButtonActive]           = ImVec4(0.24f, 0.24f, 0.24f, 1.00f);
     colors[ImGuiCol_Header]                 = ImVec4(0.26f, 0.59f, 0.98f, 0.31f);
     colors[ImGuiCol_HeaderHovered]          = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
     colors[ImGuiCol_HeaderActive]           = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
@@ -37,11 +54,6 @@ void style() {
     colors[ImGuiCol_ResizeGrip]             = ImVec4(0.26f, 0.59f, 0.98f, 0.25f);
     colors[ImGuiCol_ResizeGripHovered]      = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
     colors[ImGuiCol_ResizeGripActive]       = ImVec4(0.26f, 0.59f, 0.98f, 0.95f);
-    /*colors[ImGuiCol_TabHovered]             = ImVec4(0.32f, 0.81f, 0.19f, 0.62f);
-    colors[ImGuiCol_Tab]                    = ImVec4(0.11f, 0.50f, 0.04f, 0.62f);
-    colors[ImGuiCol_TabActive]              = ImVec4(0.20f, 0.75f, 0.15f, 0.62f);
-    colors[ImGuiCol_TabUnfocused]           = ImVec4(0.07f, 0.10f, 0.15f, 0.97f);
-    colors[ImGuiCol_TabUnfocusedActive]     = ImVec4(0.14f, 0.26f, 0.42f, 1.00f);*/
     colors[ImGuiCol_TabHovered]             = ImVec4(0.18f, 0.18f, 0.18f, 1.00f);
     colors[ImGuiCol_Tab]                    = ImVec4(0.18f, 0.18f, 0.18f, 1.00f);
     colors[ImGuiCol_TabActive]              = ImVec4(0.25f, 0.25f, 0.25f, 1.00f);
@@ -124,80 +136,47 @@ void Menu::onSwapWindow(SDL_Window* window) {
 
 
 void Menu::drawMenu() {
+    ImVec2 mainPos, mainSize;
     ImGui::SetNextWindowSize(ImVec2{700, 627});
-    ImGui::Begin("x352 cheats", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("x352 cheats", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse); {
 
-    // Border thing
-    ImDrawList* draw = ImGui::GetForegroundDrawList();
-    ImVec2 pos = ImGui::GetWindowPos();
-    ImVec2 size = ImGui::GetWindowSize();
+        ImDrawList* draw = ImGui::GetForegroundDrawList();
+        ImVec2 pos = mainPos = ImGui::GetWindowPos();
+        ImVec2 size = mainSize = ImGui::GetWindowSize();
 
-    std::vector<ImColor> colors = {
-        ImColor(0, 0, 0),
-        ImColor(55, 55, 55),
-        ImColor(40, 40, 40),
-        ImColor(40, 40, 40),
-        ImColor(40, 40, 40),
-        ImColor(55, 55, 55),
-        ImColor(0, 0, 0),
-    };
+        drawBorder(pos, size, draw);
 
-    for (int i = 0; i < (int)colors.size(); i++) {
-        draw->AddRect(ImVec2(pos.x - i, pos.y - i),
-                      ImVec2(pos.x + size.x + i, pos.y + size.y + i), colors[i]);
+        switch(tabSelected) {
+            case 0: Menu::drawLegitTab(); break;
+            case 1: Menu::drawRageTab(); break;
+            case 2: Menu::drawVisualsTab(); break;
+            case 3: Menu::drawMiscTab();break;
+        }
+
+        ImGui::End();
     }
 
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 4));
-    ImGui::Text("x352"); ImGui::SameLine(); ImGui::PopStyleVar();
+    ImGui::SetNextWindowPos(ImVec2(mainPos.x - 187, mainPos.y));
+    ImGui::SetNextWindowSize(ImVec2{167, 627});
+    ImGui::Begin("tabs", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar); {
+        ImDrawList* draw = ImGui::GetForegroundDrawList();
+        ImVec2 pos = ImGui::GetWindowPos();
+        ImVec2 size = ImGui::GetWindowSize();
+        drawBorder(pos, size, draw);
 
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(272, 5));
-    ImGui::TextColored(ImGui::GetStyle().Colors[ImGuiCol_MenuCol], "cheats");
+        std::vector<std::string> tabNames = { "Legit", "Rage", "Visuals", "Misc" };
 
-    ImGui::SameLine();
-    ImGui::PopStyleVar();
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.f);
+        ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_WindowBg]);
+        for (int i = 0; i < (int)tabNames.size(); i++) {
+            if (ImGui::Button(tabNames[i].c_str(), ImVec2(ImGui::GetWindowContentRegionWidth(), 147)))
+                tabSelected = i;
+        }
+        ImGui::PopStyleVar();
+        ImGui::PopStyleVar();
+        ImGui::PopStyleColor();
 
-    auto bWidth = ImVec2(80, 20);
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(2, 5));
-
-    ImGui::GetStyle().Colors[ImGuiCol_Button] = (Menu::tabSelected == 0) ? ImVec4(0.05f, 0.41f, 0.06f, 0.62f) : ImVec4(0.03f, 0.23f, 0.04f, 0.62f);
-    if (ImGui::Button("Legit", bWidth)) {
-        Menu::tabSelected = 0;
-    } ImGui::SameLine();
-
-    ImGui::GetStyle().Colors[ImGuiCol_Button] = (Menu::tabSelected == 1) ? ImVec4(0.05f, 0.41f, 0.06f, 0.62f) : ImVec4(0.03f, 0.23f, 0.04f, 0.62f);
-    if (ImGui::Button("Rage", bWidth)) {
-        Menu::tabSelected = 1;
-    } ImGui::SameLine();
-
-    ImGui::GetStyle().Colors[ImGuiCol_Button] = (Menu::tabSelected == 2) ? ImVec4(0.05f, 0.41f, 0.06f, 0.62f) : ImVec4(0.03f, 0.23f, 0.04f, 0.62f);
-    if (ImGui::Button("Visuals", bWidth)) {
-        Menu::tabSelected = 2;
-    } ImGui::SameLine();
-
-    ImGui::GetStyle().Colors[ImGuiCol_Button] = (Menu::tabSelected == 3) ? ImVec4(0.05f, 0.41f, 0.06f, 0.62f) : ImVec4(0.03f, 0.23f, 0.04f, 0.62f);
-    if (ImGui::Button("Misc", bWidth)) {
-        Menu::tabSelected = 3;
+        ImGui::End();
     }
-    ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(0.05f, 0.41f, 0.06f, 0.62f);
-    ImGui::PopStyleVar();
-
-    ImGui::Separator();
-    ImGui::Separator();
-
-    switch(tabSelected) {
-        case 0: {
-            Menu::drawLegitTab(); break;
-        }
-        case 1: {
-            Menu::drawRageTab(); break;
-        }
-        case 2: {
-            Menu::drawVisualsTab(); break;
-        }
-        case 3: {
-            Menu::drawMiscTab();break;
-        }
-    }
-
-    ImGui::End();
 }
