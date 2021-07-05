@@ -252,7 +252,7 @@ void Menu::drawVisualsTab() {
 
                 ImGui::EndChild();
             }
-            ImGui::BeginChild("Removals", ImVec2(0, ImGui::GetWindowHeight() * 0.38), true); {
+            ImGui::BeginChild("Removals", ImVec2(0, 0), true); {
                 ImGui::Text("Removals");
                 ImGui::Separator();
 
