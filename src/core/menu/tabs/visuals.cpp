@@ -6,9 +6,9 @@ void Menu::drawVisualsTab() {
     if (ImGui::BeginTabBar("##visTabs")) {
         if (ImGui::BeginTabItem("Players")) {
             ImGui::Columns(2, NULL, false);
-            ImGui::SetColumnWidth(-1, ImGui::GetWindowContentRegionWidth() * 0.52);
+            ImGui::SetColumnWidth(-1, (ImGui::GetWindowContentRegionWidth() * 0.50) + 5);
 
-            ImGui::BeginChild("Enemies", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.488f, ImGui::GetWindowHeight() * 0.48f), true); {
+            ImGui::BeginChild("Enemies", ImVec2((ImGui::GetWindowContentRegionWidth() / 2) - 4, ImGui::GetWindowHeight() * 0.48f), true); {
                 ImGui::Text("Enemies");
                 ImGui::Separator();
 
@@ -41,7 +41,7 @@ void Menu::drawVisualsTab() {
                 ImGui::EndChild();
             }
 
-            ImGui::BeginChild("Chams", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.488f, 0), true); {
+            ImGui::BeginChild("Chams", ImVec2((ImGui::GetWindowContentRegionWidth() / 2) - 4, 0), true); {
                 ImGui::Checkbox("Enemies", &CONFIGBOOL("Visuals>Players>Chams>Enemies>Enabled"));
                 COLOR("##Enemy Visible Color", CONFIGCOL("Visuals>Players>Chams>Enemies>Visible Color"), true);
 
