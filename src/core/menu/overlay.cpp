@@ -57,13 +57,20 @@ void Menu::drawOverlay(ImDrawList* drawList) {
         Globals::drawList->AddRectFilled(ImVec2(w - width - framePadding, framePadding), ImVec2(w - framePadding, framePadding + height), ImColor(25, 25, 25, 255));
 
         // Border thing
-        Globals::drawList->AddRect(ImVec2(w - width - framePadding - 0, framePadding - 0), ImVec2(w - framePadding + 0, framePadding + height + 0), ImColor(0, 0, 0, 255));
-        Globals::drawList->AddRect(ImVec2(w - width - framePadding - 1, framePadding - 1), ImVec2(w - framePadding + 1, framePadding + height + 1), ImColor(55, 55, 55, 255));
-        Globals::drawList->AddRect(ImVec2(w - width - framePadding - 2, framePadding - 2), ImVec2(w - framePadding + 2, framePadding + height + 2), ImColor(40, 40, 40, 255));
-        Globals::drawList->AddRect(ImVec2(w - width - framePadding - 3, framePadding - 3), ImVec2(w - framePadding + 3, framePadding + height + 3), ImColor(40, 40, 40, 255));
-        Globals::drawList->AddRect(ImVec2(w - width - framePadding - 4, framePadding - 4), ImVec2(w - framePadding + 4, framePadding + height + 4), ImColor(40, 40, 40, 255));
-        Globals::drawList->AddRect(ImVec2(w - width - framePadding - 5, framePadding - 5), ImVec2(w - framePadding + 5, framePadding + height + 5), ImColor(55, 55, 55, 255));
-        Globals::drawList->AddRect(ImVec2(w - width - framePadding - 6, framePadding - 6), ImVec2(w - framePadding + 6, framePadding + height + 6), ImColor(0, 0, 0, 255));
+        std::vector<ImColor> colors = {
+            ImColor(0, 0, 0),
+            ImColor(55, 55, 55),
+            ImColor(40, 40, 40),
+            ImColor(40, 40, 40),
+            ImColor(40, 40, 40),
+            ImColor(55, 55, 55),
+            ImColor(0, 0, 0),
+        };
+
+        for (int i = 0; i < (int)colors.size(); i++) {
+            Globals::drawList->AddRect(ImVec2(w - width - framePadding - i, framePadding - i),
+                                       ImVec2(w - framePadding + i, framePadding + height + i), colors[i]);
+        }
 
         // Color bar
         ImColor l, m, r, l2, m2, r2;
