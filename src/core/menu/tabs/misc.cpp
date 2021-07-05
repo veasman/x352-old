@@ -145,10 +145,6 @@ void Menu::drawMiscTab() {
                 }
                 ImGui::Checkbox("Edge Bug", &CONFIGBOOL("Misc>Misc>Movement>Edge Bug"));
                 ImGui::Checkbox("Fast Duck", &CONFIGBOOL("Misc>Misc>Movement>Fast Duck"));
-                ImGui::SameLine();
-                ImGui::TextDisabled("?");
-                if (ImGui::IsItemHovered())
-                    ImGui::SetTooltip("May cause untrusted, use at own risk!");
                 ImGui::EndChild();
             }
             ImGui::Columns(1);
