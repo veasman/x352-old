@@ -127,6 +127,26 @@ void Menu::drawMenu() {
     ImGui::SetNextWindowSize(ImVec2{700, 627});
     ImGui::Begin("x352 cheats", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
+    // Border thing
+    ImDrawList* draw = ImGui::GetForegroundDrawList();
+    ImVec2 pos = ImGui::GetWindowPos();
+    ImVec2 size = ImGui::GetWindowSize();
+
+    std::vector<ImColor> colors = {
+        ImColor(0, 0, 0),
+        ImColor(55, 55, 55),
+        ImColor(40, 40, 40),
+        ImColor(40, 40, 40),
+        ImColor(40, 40, 40),
+        ImColor(55, 55, 55),
+        ImColor(0, 0, 0),
+    };
+
+    for (int i = 0; i < (int)colors.size(); i++) {
+        draw->AddRect(ImVec2(pos.x - i, pos.y - i),
+                      ImVec2(pos.x + size.x + i, pos.y + size.y + i), colors[i]);
+    }
+
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 4));
     ImGui::Text("x352"); ImGui::SameLine(); ImGui::PopStyleVar();
 
