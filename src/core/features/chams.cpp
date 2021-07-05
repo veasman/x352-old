@@ -125,7 +125,7 @@ void chamPlayer(void* thisptr, void* ctx, const DrawModelState_t &state, const M
                 cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Players>Chams>Enemies>Occluded Enabled"), CONFIGCOL("Visuals>Players>Chams>Enemies>Occluded Color"), CONFIGCOL("Visuals>Players>Chams>Enemies>Overlay Color"), CONFIGINT("Visuals>Players>Chams>Enemies>Material"), true);
                 cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Players>Chams>Enemies>Enabled"), CONFIGCOL("Visuals>Players>Chams>Enemies>Visible Color"), CONFIGCOL("Visuals>Players>Chams>Enemies>Overlay Color"), CONFIGINT("Visuals>Players>Chams>Enemies>Material"), false);
 
-                if (CONFIGBOOL("Legit>Backtrack>Backtrack") && !CONFIGBOOL("Rage>Enabled")) {
+                if (CONFIGBOOL("Legit>Backtrack>Backtrack") && !CONFIGBOOL("Rage>RageBot>Enabled")) {
                     if (CONFIGBOOL("Visuals>Players>Chams>Enemies>Backtrack Enabled")) {
                         if (Features::Backtrack::backtrackTicks.size() > 2) {
                             Features::Backtrack::BackTrackTick tick = Features::Backtrack::backtrackTicks.at(Features::Backtrack::backtrackTicks.size()-1);
