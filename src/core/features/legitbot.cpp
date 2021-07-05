@@ -117,7 +117,6 @@ void Features::LegitBot::createMove(CUserCmd* cmd) {
             if (closestDelta < FOV) {
                 if (((angleToClosestBone) / smoothing).Length() > 0.005f) { // prevent micro-movements
                     cmd->viewangles += (angleToClosestBone) / smoothing;
-                    Interfaces::engine->SetViewAngles(cmd->viewangles);
                 }
             }
         }
