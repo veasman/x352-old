@@ -21,10 +21,10 @@ void Hooks::Events::EventListener::FireGameEvent(IGameEvent *event) {
 
             if (CONFIGBOOL("Misc>Misc>Hitmarkers>Hitlogs")) {
                 if (CONFIGBOOL("Legit>Backtrack>Backtrack") && Features::Backtrack::lastBacktrack > 4) {
-                    Features::Notifications::addNotification(ImColor(255, 255, 0), "[gs] backtracked %s %i ticks for %i health", info.name, Features::Backtrack::lastBacktrack, event->GetInt("dmg_health"));
+                    Features::Notifications::addNotification(ImColor(255, 255, 0), "[x352] backtracked %s %i ticks for %i health", info.name, Features::Backtrack::lastBacktrack, event->GetInt("dmg_health"));
                 }
                 else {
-                    Features::Notifications::addNotification(ImColor(255, 255, 0), "[gs] hit %s for %i health", info.name, event->GetInt("dmg_health"));
+                    Features::Notifications::addNotification(ImColor(255, 255, 0), "[x352] hit %s for %i health", info.name, event->GetInt("dmg_health"));
                 }
             }
 
@@ -60,7 +60,7 @@ void Hooks::Events::EventListener::FireGameEvent(IGameEvent *event) {
             Interfaces::engine->GetPlayerInfo(victim->index(), &info);
 
             if (CONFIGBOOL("Misc>Misc>Hitmarkers>Hitlogs")) {
-                Features::Notifications::addNotification(ImColor(255, 40, 40), "[gs] killed %s", info.name);
+                Features::Notifications::addNotification(ImColor(255, 40, 40), "[x352] killed %s", info.name);
             }
         }
     }
