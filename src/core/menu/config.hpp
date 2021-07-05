@@ -227,22 +227,22 @@ namespace Config {
 
                 CONFIGITEM("Visuals>Players>Chams>Enemies>Backtrack Enabled", false),
                 CONFIGITEM("Visuals>Players>Chams>Enemies>Backtrack Color", ImColor(0, 0, 0)),
-                CONFIGITEM("Visuals>Players>Chams>Enemies>Backtrack Overlay Color", ImColor(0, 0, 0)),
+                CONFIGITEM("Visuals>Players>Chams>Enemies>Backtrack Overlay Color", ImColor(20, 50, 60)),
                 CONFIGITEM("Visuals>Players>Chams>Enemies>Backtrack Material", 0),
 
                 CONFIGITEM("Visuals>Players>Chams>Weapon Enabled", false),
-                CONFIGITEM("Visuals>Players>Chams>Weapon Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>Chams>Weapon Overlay Color", ImColor(197, 66, 245, 255)),
+                CONFIGITEM("Visuals>Players>Chams>Weapon Color", ImColor(60, 20, 110)),
+                CONFIGITEM("Visuals>Players>Chams>Weapon Overlay Color", ImColor(240, 190, 30)),
                 CONFIGITEM("Visuals>Players>Chams>Weapon Material", 0),
 
                 CONFIGITEM("Visuals>Players>Chams>Arms Enabled", false),
-                CONFIGITEM("Visuals>Players>Chams>Arms Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>Chams>Arms Overlay Color", ImColor(197, 66, 245, 255)),
+                CONFIGITEM("Visuals>Players>Chams>Arms Color", ImColor(255, 255, 255)),
+                CONFIGITEM("Visuals>Players>Chams>Arms Overlay Color", ImColor(20, 50, 60)),
                 CONFIGITEM("Visuals>Players>Chams>Arms Material", 0),
 
                 CONFIGITEM("Visuals>Players>Chams>Sleeve Enabled", false),
-                CONFIGITEM("Visuals>Players>Chams>Sleeve Color", ImColor(197, 66, 245, 255)),
-                CONFIGITEM("Visuals>Players>Chams>Sleeve Overlay Color", ImColor(197, 66, 245, 255)),
+                CONFIGITEM("Visuals>Players>Chams>Sleeve Color", ImColor(255, 255, 255)),
+                CONFIGITEM("Visuals>Players>Chams>Sleeve Overlay Color", ImColor(20, 50, 60)),
                 CONFIGITEM("Visuals>Players>Chams>Sleeve Material", 0),
             // }
             // World {
