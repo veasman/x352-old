@@ -160,7 +160,6 @@ void Menu::drawVisualsTab() {
 
                 ImGui::Checkbox("Ragdoll Gravity", &CONFIGBOOL("Visuals>World>World>Ragdoll Gravity"));
 
-
                 ImGui::Checkbox("Bullet Tracers", &CONFIGBOOL("Visuals>World>World>Bullet Tracers"));
                 if (CONFIGBOOL("Visuals>World>World>Bullet Tracers")) {
                     ImGui::SameLine();
@@ -183,17 +182,13 @@ void Menu::drawVisualsTab() {
                 ImGui::Text("World Modulation");
                 ImGui::Separator();
 
-                ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(244, 5));
-                ImGui::TextIndent("World Color"); ImGui::SameLine();
-                ImGui::PopStyleVar();
+                ImGui::TextIndent("World Color");
 
                 COLORBOOL("##World Color Modulation", CONFIGCOL("Visuals>World>World>World Color Modulation"), false) {
                     Features::ColorModulation::updateColorModulation();
                 }
 
-                ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(236, 5));
-                ImGui::TextIndent("SkyBox Color"); ImGui::SameLine();
-                ImGui::PopStyleVar();
+                ImGui::TextIndent("SkyBox Color");
 
                 COLORBOOL("##SkyBox Color Modulation", CONFIGCOL("Visuals>World>World>SkyBox Color Modulation"), false) {
                     Features::ColorModulation::updateColorModulation();
@@ -234,30 +229,25 @@ void Menu::drawVisualsTab() {
             ImGui::BeginChild("Items", ImVec2(0, ImGui::GetWindowHeight() * 0.46f), true); {
                 ImGui::Text("Items");
                 ImGui::Separator();
-                if (CONFIGBOOL("Visuals>World>Items>Weapon Box")) {
-                    COLOR("##Weapon Box Color", CONFIGCOL("Visuals>World>Items>Weapon Box Color"), false);
-                    ImGui::SameLine();
-                }
+
                 ImGui::Checkbox("Weapon Box", &CONFIGBOOL("Visuals>World>Items>Weapon Box"));
+                COLOR("##Weapon Box Color", CONFIGCOL("Visuals>World>Items>Weapon Box Color"), false);
+
                 ImGui::Checkbox("Weapon Label", &CONFIGBOOL("Visuals>World>Items>Weapon Label"));
-                ImGui::Separator();
-                if (CONFIGBOOL("Visuals>World>Items>Grenade Box")) {
-                    COLOR("##Grenade Box Color", CONFIGCOL("Visuals>World>Items>Grenade Box Color"), false);
-                    ImGui::SameLine();
-                }
+
                 ImGui::Checkbox("Grenade Box", &CONFIGBOOL("Visuals>World>Items>Grenade Box"));
+                COLOR("##Grenade Box Color", CONFIGCOL("Visuals>World>Items>Grenade Box Color"), false);
+
                 if (CONFIGBOOL("Visuals>World>Items>Grenade Box")) {
-                    ImGui::SameLine();
                     ImGui::Checkbox("Dynamic Color", &CONFIGBOOL("Visuals>World>Items>Grenade Box Dynamic Color"));
                 }
+
                 ImGui::Checkbox("Grenade Label", &CONFIGBOOL("Visuals>World>Items>Grenade Label"));
                 ImGui::Checkbox("Grenade Owners", &CONFIGBOOL("Visuals>World>Items>Grenade Owners"));
-                ImGui::Separator();
-                if (CONFIGBOOL("Visuals>World>Items>Planted C4 Box")) {
-                    COLOR("##Planted C4 Box Color", CONFIGCOL("Visuals>World>Items>Planted C4 Box Color"), false);
-                    ImGui::SameLine();
-                }
+
                 ImGui::Checkbox("Planted C4 Box", &CONFIGBOOL("Visuals>World>Items>Planted C4 Box"));
+                COLOR("##Planted C4 Box Color", CONFIGCOL("Visuals>World>Items>Planted C4 Box Color"), false);
+
                 ImGui::Checkbox("Planted C4 Label", &CONFIGBOOL("Visuals>World>Items>Planted C4 Label"));
 
                 ImGui::EndChild();
