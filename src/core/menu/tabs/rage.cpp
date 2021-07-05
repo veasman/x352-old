@@ -6,24 +6,26 @@ void Menu::drawRageTab() {
     ImGui::BeginChild("Rage", ImVec2((ImGui::GetWindowContentRegionWidth()/2) - 4, 0), true); {
         ImGui::Text("RageBot");
         ImGui::Separator();
+
         ImGui::Checkbox("Enabled", &CONFIGBOOL("Rage>RageBot>Enabled"));
-        // NOTE: This will only be needed *if* I built out the ragebot.
-        //       Commenting it out for now, so the menu looks nicer.
-        //if (ImGui::BeginTabBar("Weapons Tabbar")) {
-            //if (ImGui::BeginTabItem("Default")) {
-                ImGui::Checkbox("Resolver", &CONFIGBOOL("Rage>RageBot>Default>Resolver"));
-                ImGui::Checkbox("Force Baim if health < X", &CONFIGBOOL("Rage>RageBot>Default>ForceBaim"));
-                if(CONFIGBOOL("Rage>RageBot>Default>ForceBaim")) {
-                    ImGui::TextIndent("Health");
-                    ImGui::SliderInt("##HEALTH", &CONFIGINT("Rage>RageBot>Default>ForceBaimValue"), 1, 100);
-                }
-                ImGui::TextIndent("FOV (x10)");
-                ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
-                ImGui::SliderInt("##FOV", &CONFIGINT("Rage>RageBot>Default>FOV"), 0, 1800);
-                //ImGui::EndTabItem();
-            //}
-            //ImGui::EndTabBar();
-        //}
+        ImGui::Checkbox("Autofire", &CONFIGBOOL("Rage>RageBot>Autofire"));
+
+        ImGui::TextIndent("FOV (x10)");
+        ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
+        ImGui::SliderInt("##FOV", &CONFIGINT("Rage>RageBot>Default>FOV"), 0, 1800);
+
+        ImGui::TextIndent("Hitchance");
+        ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
+        ImGui::SliderInt("##Hitchance", &CONFIGINT("Rage>RageBot>Default>Hitchance"), 0, 100);
+
+        ImGui::Checkbox("Resolver", &CONFIGBOOL("Rage>RageBot>Default>Resolver"));
+
+        ImGui::Checkbox("Force Baim if health < X", &CONFIGBOOL("Rage>RageBot>Default>ForceBaim"));
+        if(CONFIGBOOL("Rage>RageBot>Default>ForceBaim")) {
+            ImGui::TextIndent("Health");
+            ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
+            ImGui::SliderInt("##HEALTH", &CONFIGINT("Rage>RageBot>Default>ForceBaimValue"), 1, 100);
+        }
         ImGui::EndChild();
     }
     ImGui::SameLine();
