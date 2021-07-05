@@ -90,5 +90,5 @@ bool Hooks::CreateMove::hook(void* thisptr, float flInputSampleTime, CUserCmd* c
         cmd->viewangles.z = 0.0f;
     }
 
-    return !(CONFIGBOOL("Rage>RageBot>Enabled")); // return false when we want to do silent angles for rb
+    return false;
 }
