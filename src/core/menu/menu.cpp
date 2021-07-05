@@ -15,7 +15,7 @@ void drawBorder(ImVec2 pos, ImVec2 size, ImDrawList* drawList) {
 
     for (int i = 0; i < (int)colors.size(); i++) {
         drawList->AddRect(ImVec2(pos.x - i, pos.y - i),
-                      ImVec2(pos.x + size.x + i, pos.y + size.y + i), colors[i]);
+                          ImVec2(pos.x + size.x + i, pos.y + size.y + i), colors[i]);
     }
 }
 
