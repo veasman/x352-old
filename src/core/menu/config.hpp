@@ -335,6 +335,7 @@ namespace Config {
             CONFIGITEM("Misc>Misc>Clantag>Clantag text", 0),
             CONFIGITEM("Misc>Misc>Clantag>Clantag", false),
             CONFIGITEM("Misc>Misc>Clantag>Clantag Marquee", false),
+            CONFIGITEM("Misc>Misc>Clantag>Reverse", false),
             CONFIGITEM("Misc>Misc>Clantag>Bee Movie Clantag", false),
             CONFIGITEM("Misc>Misc>Misc>Spectators", false),
             CONFIGITEM("Misc>Misc>Misc>Player List", false),

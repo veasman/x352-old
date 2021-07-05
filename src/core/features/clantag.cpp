@@ -6,8 +6,9 @@
 void shiftMarquee(char* text, int size) {
     char temp;
     for (int i = 0; i < (size - 1); i++) {
-        temp = text[size - 1];
-        text[size - 1] = text[i];
+        int dir = CONFIGBOOL("Misc>Misc>Clantag>Reverse") ? size - 1 : i + 1;
+        temp = text[dir];
+        text[dir] = text[i];
         text[i] = temp;
     }
 }
