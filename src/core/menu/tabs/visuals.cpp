@@ -12,7 +12,7 @@ void Menu::drawVisualsTab() {
                 ImGui::Text("Enemies");
                 ImGui::Separator();
 
-                ImGui::Checkbox("Teammates", &CONFIGBOOL("Visuals>Players>Teammates"));
+                //ImGui::Checkbox("Teammates", &CONFIGBOOL("Visuals>Players>Teammates"));
 
                 ImGui::Checkbox("Box", &CONFIGBOOL("Visuals>Players>Box"));
                 COLOR("##Box Color", CONFIGCOL("Visuals>Players>Box Color"), false);

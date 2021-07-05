@@ -124,7 +124,11 @@ void drawPlayer(Player* p) {
                 player_info_t info;
                 Interfaces::engine->GetPlayerInfo(p->index(), &info);
 
-                if (!p->isEnemy() && !CONFIGBOOL("Visuals>Players>Teammates"))
+                // NOTE: If you're reading this, I'm currently fixing this code
+                //if (!p->isEnemy() && !CONFIGBOOL("Visuals>Players>Teammates"))
+                    //return;
+
+                if (!p->isEnemy())
                     return;
 
                 if (CONFIGBOOL("Visuals>Players>Vis Check") ? (Globals::localPlayer->health() > 0 ? p->visible() : true) : true) {

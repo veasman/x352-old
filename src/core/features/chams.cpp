@@ -139,8 +139,8 @@ void chamPlayer(void* thisptr, void* ctx, const DrawModelState_t &state, const M
                 }
             }
             else {
-                cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Playes>Chams>Teammates>Occluded Enabled"), CONFIGCOL("Visuals>Players>Chams>Teammates>Occluded Color"), CONFIGCOL("Visuals>Players>Chams>Teammates>Overlay Color"), CONFIGINT("Visuals>Players>Chams>Teammates>Material"), true);
-                cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Playes>Chams>Teammates>Enabled"), CONFIGCOL("Visuals>Players>Chams>Teammates>Visible Color"), CONFIGCOL("Visuals>Players>Chams>Teammates>Overlay Color"), CONFIGINT("Visuals>Players>Chams>Teammates>Material"), false);
+                cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Players>Chams>Teammates>Occluded Enabled"), CONFIGCOL("Visuals>Players>Chams>Teammates>Occluded Color"), CONFIGCOL("Visuals>Players>Chams>Teammates>Overlay Color"), CONFIGINT("Visuals>Players>Chams>Teammates>Material"), true);
+                cham(thisptr, ctx, state, pInfo, pCustomBoneToWorld, CONFIGBOOL("Visuals>Players>Chams>Teammates>Enabled"), CONFIGCOL("Visuals>Players>Chams>Teammates>Visible Color"), CONFIGCOL("Visuals>Players>Chams>Teammates>Overlay Color"), CONFIGINT("Visuals>Players>Chams>Teammates>Material"), false);
             }
         }
         else {
