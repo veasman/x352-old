@@ -11,17 +11,28 @@ struct Notification {
 std::vector<Notification> notifications = {};
 
 void Features::Notifications::draw() {
-    int yOffset = 20;
+    int yOffset = 0;
+    int padding = 8;
     for (Notification &notif : notifications) {
         float slideValue = Interfaces::globals->realtime - (notif.openTime + 8.f);
-        ImColor shadowColor = ImColor(0, 0, 0, 255);
-        notif.color.Value.w = 1.f-(slideValue*3.f);
-        shadowColor.Value.w = 1.f-(slideValue*3.f);
+        float colorSlideValue = Interfaces::globals->realtime - (notif.openTime + 8.2f);
 
-        Globals::drawList->AddText(ImVec2((slideValue > 0.f) ? 4 - slideValue*800 : 4, yOffset+1), shadowColor, notif.text);
-        Globals::drawList->AddText(ImVec2((slideValue > 0.f) ? 3 - slideValue*800 : 3, yOffset), notif.color, notif.text);
+        ImColor menuColor = ImGui::GetStyle().Colors[ImGuiCol_MenuCol];
 
-        yOffset+=13;
+        notif.color.Value.w = 1.f - (colorSlideValue * 3.f);
+
+        ImVec2 textSize = ImGui::CalcTextSize(notif.text);
+        ImVec2 notifPos = ImVec2(slideValue > 0.f ? 0 - slideValue * 800 : 0, yOffset);
+        ImVec2 colorPos = ImVec2(colorSlideValue > 0.f ? 0 - colorSlideValue * 820 : 0, yOffset);
+        ImVec2 textPos = ImVec2(notifPos.x + padding, notifPos.y + padding);
+        ImVec2 boxSize = ImVec2(textSize.x + (padding * 2), textSize.y + (padding * 2));
+
+        Globals::drawList->AddRectFilled(notifPos, ImVec2(colorPos.x + boxSize.x + padding, colorPos.y + boxSize.y), menuColor);
+        Globals::drawList->AddRectFilled(notifPos, ImVec2(notifPos.x + boxSize.x, notifPos.y + boxSize.y), ImColor(17, 17, 17));
+
+        Globals::drawList->AddText(textPos, notif.color, notif.text);
+
+        yOffset+=boxSize.y;
 
         if (notif.color.Value.w < 0.f) {
             notifications.erase(notifications.begin());
