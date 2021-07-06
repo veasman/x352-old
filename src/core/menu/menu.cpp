@@ -2,7 +2,7 @@
 #include "imgui/imgui.h"
 #include "roboto.hpp"
 
-void drawBorder(ImVec2 pos, ImVec2 size, ImDrawList* drawList) {
+void Menu::drawBorder(ImVec2 pos, ImVec2 size, ImDrawList* drawList) {
     std::vector<ImColor> colors = {
         ImColor(0, 0, 0),
         ImColor(55, 55, 55),
@@ -140,7 +140,7 @@ void Menu::drawMenu() {
     ImGui::SetNextWindowSize(ImVec2{700, 627});
     ImGui::Begin("x352 cheats", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse); {
 
-        ImDrawList* draw = ImGui::GetForegroundDrawList();
+        ImDrawList* draw = ImGui::GetBackgroundDrawList();
         ImVec2 pos = mainPos = ImGui::GetWindowPos();
         ImVec2 size = mainSize = ImGui::GetWindowSize();
 
@@ -159,7 +159,7 @@ void Menu::drawMenu() {
     ImGui::SetNextWindowPos(ImVec2(mainPos.x - 187, mainPos.y));
     ImGui::SetNextWindowSize(ImVec2{167, 627});
     ImGui::Begin("tabs", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar); {
-        ImDrawList* draw = ImGui::GetForegroundDrawList();
+        ImDrawList* draw = ImGui::GetBackgroundDrawList();
         ImVec2 pos = ImGui::GetWindowPos();
         ImVec2 size = ImGui::GetWindowSize();
         drawBorder(pos, size, draw);

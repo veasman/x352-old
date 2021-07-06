@@ -5,6 +5,12 @@
 void Features::PlayerList::draw() {
     if (CONFIGBOOL("Misc>Misc>Misc>Player List") && (CONFIGBOOL("Misc>Misc>Misc>Player List Only When Menu Open") ? Menu::open : true)) {
         ImGui::Begin("Player List", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | (Menu::open ? 0 : ImGuiWindowFlags_NoMouseInputs));
+
+        ImDrawList* draw = ImGui::GetBackgroundDrawList();
+        ImVec2 pos = ImGui::GetWindowPos();
+        ImVec2 size = ImGui::GetWindowSize();
+        Menu::drawBorder(pos, size, draw);
+
         ImGui::Text("Players");
         ImGui::Separator();
         if (Interfaces::engine->IsInGame() && Globals::localPlayer) {
@@ -50,14 +56,14 @@ void Features::PlayerList::draw() {
                     ImGui::Text("Name: %s", selectedPlayerInfo.name); ImGui::SameLine(); if (ImGui::Button("Steal Name")) {
                         static auto nameConvar = Interfaces::convar->FindVar("name");
                         nameConvar->fnChangeCallback = 0;
-                        
+
                         char* name = selectedPlayerInfo.name;
                         strcat(name, " ");
                         nameConvar->SetValue(name);
                     }
                     ImGui::Text("GUID: %s", selectedPlayerInfo.guid);
                     ImGui::Text("XUID: %li", selectedPlayerInfo.xuid);
-                    
+
                     ImGui::Separator();
                     static char message[128] = "";
                     ImGui::InputText("Message##tbox", message, IM_ARRAYSIZE(message));

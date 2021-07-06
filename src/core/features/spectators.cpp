@@ -4,6 +4,12 @@
 void Features::Spectators::draw() {
     if (CONFIGBOOL("Misc>Misc>Misc>Spectators")) {
         ImGui::Begin("Spectator List", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse | (Menu::open ? 0 : ImGuiWindowFlags_NoMouseInputs));
+
+        ImDrawList* draw = ImGui::GetBackgroundDrawList();
+        ImVec2 pos = ImGui::GetWindowPos();
+        ImVec2 size = ImGui::GetWindowSize();
+        Menu::drawBorder(pos, size, draw);
+
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(2, 2));
         if (Interfaces::engine->IsInGame() && Globals::localPlayer) {
             for (int i = 0; i < Interfaces::globals->maxClients; i++) {

@@ -18,6 +18,7 @@ namespace Menu {
     inline int tabSelected = 0;
 
     inline char clantag[128] = "x352cheats ";
+    void drawBorder(ImVec2 pos, ImVec2 size, ImDrawList* drawList);
     void drawMenu();
     void drawLegitTab();
     void drawRageTab();
