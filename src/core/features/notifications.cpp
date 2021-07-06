@@ -42,7 +42,7 @@ void Features::Notifications::draw() {
             notifications.erase(notifications.begin());
         }
     }
-    while(notifications.size() > 8) {
+    while(notifications.size() > 12) {
         notifications.erase(notifications.begin());
     }
 }
