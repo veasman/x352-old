@@ -100,6 +100,7 @@ void Menu::onSwapWindow(SDL_Window* window) {
         ImGui_ImplSDL2_InitForOpenGL(window, nullptr);
         style();
         ImGui::GetIO().Fonts->AddFontFromMemoryCompressedTTF(Roboto_compressed_data, Roboto_compressed_size, 13.f);
+        badcache = ImGui::GetIO().Fonts->AddFontFromFileTTF("res/badcache.ttf", 30.f);
         initialised = true;
     }
 
@@ -164,15 +165,18 @@ void Menu::drawMenu() {
         ImVec2 size = ImGui::GetWindowSize();
         drawBorder(pos, size, draw);
 
-        std::vector<std::string> tabNames = { "Legit", "Rage", "Visuals", "Misc" };
+        //std::vector<std::string> tabNames = { "Legit", "Rage", "Visuals", "Misc" };
+        std::vector<std::string> tabNames = { "0049", "0041", "0044", "0047" };
 
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
         ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.f);
         ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyle().Colors[ImGuiCol_WindowBg]);
+        ImGui::PushFont(badcache);
         for (int i = 0; i < (int)tabNames.size(); i++) {
             if (ImGui::Button(tabNames[i].c_str(), ImVec2(ImGui::GetWindowContentRegionWidth(), 147)))
                 tabSelected = i;
         }
+        ImGui::PopFont();
         ImGui::PopStyleVar();
         ImGui::PopStyleVar();
         ImGui::PopStyleColor();

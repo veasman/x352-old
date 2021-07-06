@@ -12,7 +12,7 @@
 #define COMBO(name, var, items) ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth()); ImGui::Combo(name, &var, items, IM_ARRAYSIZE(items));
 
 namespace Menu {
-    inline ImFont* tahoma;
+    inline ImFont* badcache;
     inline bool open = true;
     inline bool initialised = false;
     inline int tabSelected = 0;
