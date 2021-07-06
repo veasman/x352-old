@@ -18,6 +18,10 @@ void Features::Notifications::draw() {
         float colorSlideValue = Interfaces::globals->realtime - (notif.openTime + 8.2f);
 
         ImColor menuColor = ImGui::GetStyle().Colors[ImGuiCol_MenuCol];
+        ImColor colorBottom = ImColor(menuColor.Value.x * 0.66, menuColor.Value.y * 0.66, menuColor.Value.z * 0.66, 1.0f);
+
+        ImColor darkTop = ImColor(17, 17, 17);
+        ImColor darkBottom = ImColor(11, 11, 11);
 
         notif.color.Value.w = 1.f - (colorSlideValue * 3.f);
 
@@ -27,8 +31,8 @@ void Features::Notifications::draw() {
         ImVec2 textPos = ImVec2(notifPos.x + padding, notifPos.y + padding);
         ImVec2 boxSize = ImVec2(textSize.x + (padding * 2), textSize.y + (padding * 2));
 
-        Globals::drawList->AddRectFilled(notifPos, ImVec2(colorPos.x + boxSize.x + padding, colorPos.y + boxSize.y), menuColor);
-        Globals::drawList->AddRectFilled(notifPos, ImVec2(notifPos.x + boxSize.x, notifPos.y + boxSize.y), ImColor(17, 17, 17));
+        Globals::drawList->AddRectFilledMultiColor(notifPos, ImVec2(colorPos.x + boxSize.x + padding, colorPos.y + boxSize.y), menuColor, menuColor, colorBottom, colorBottom);
+        Globals::drawList->AddRectFilledMultiColor(notifPos, ImVec2(notifPos.x + boxSize.x, notifPos.y + boxSize.y), darkTop, darkTop, darkBottom, darkBottom);
 
         Globals::drawList->AddText(textPos, notif.color, notif.text);
 
