@@ -29,7 +29,7 @@ An open source cheat for Counter-Strike: Global Offensive on Linux.
  - Flappy Bird clone
  - Legitbot
  - Hitmarkers
- - Nightmode
+ - World Color Modulation
  - Skybox changer
  - Skinchanger
  - Ragebot (currently in development and doesnt have awall so no mindmg/hitchance/autoshoot)
