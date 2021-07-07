@@ -140,5 +140,6 @@ namespace Features {
         void edgeBug(CUserCmd* cmd);
         void edgeJump(CUserCmd* cmd);
         void jumpBug(CUserCmd* cmd);
+        void jumpShot(CUserCmd* cmd);
     }
 }

@@ -72,6 +72,7 @@ bool Hooks::CreateMove::hook(void* thisptr, float flInputSampleTime, CUserCmd* c
                 Features::Movement::jumpBug(cmd);
                 Features::Movement::edgeBug(cmd);
                 Features::Movement::edgeJump(cmd);
+                Features::Movement::jumpShot(cmd);
                 Globals::viewAngles = cmd->viewangles;
             Features::Prediction::end();
 

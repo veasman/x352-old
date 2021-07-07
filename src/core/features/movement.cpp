@@ -77,3 +77,14 @@ void Features::Movement::jumpBug(CUserCmd* cmd) {
         cmd->buttons &= ~IN_JUMP;
     }
 }
+
+void Features::Movement::jumpShot(CUserCmd* cmd) {
+    if (CONFIGBOOL("Misc>Misc>Movement>Jump Shot") &&
+        Menu::CustomWidgets::isKeyDown(CONFIGINT("Misc>Misc>Movement>Jump Shot Key")) &&
+        Globals::localPlayer->moveType() != MOVETYPE_LADDER &&
+        Globals::localPlayer->moveType() != MOVETYPE_NOCLIP) {
+        AnimState* anim = Globals::localPlayer->animState();
+        if (anim->verticalVelocity <= 0.f && !anim->onGround)
+            cmd->buttons |= IN_ATTACK;
+        }
+}
