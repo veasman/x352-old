@@ -316,10 +316,6 @@ void Features::ESP::draw() {
                             }
                         }
 
-                        else if (clientClass->m_ClassID == EClassIds::CEnvTonemapController) {
-                            Nightmode::onTonemapController((TonemapController*)ent);
-                        }
-
                         /* Chicken ESP */
                         else if (clientClass->m_ClassID == EClassIds::CChicken) {
                             drawGenericEnt(ent, CONFIGBOOL("Visuals>World>Items>Chicken Box"), CONFIGCOL("Visuals>World>Items>Chicken Box Color"), CONFIGBOOL("Visuals>World>Items>Chicken Label") ? "Chicken" : "");
