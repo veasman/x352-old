@@ -67,14 +67,95 @@ void Features::Movement::edgeJump(CUserCmd* cmd) {
 
 void Features::Movement::jumpBug(CUserCmd* cmd) {
     if (CONFIGBOOL("Misc>Misc>Movement>Jump Bug") &&
-        Interfaces::inputSystem->IsButtonDown(KEY_SPACE) &&
-        Menu::CustomWidgets::isKeyDown(CONFIGINT("Misc>Misc>Movement>Jump Bug Key")) &&
-        Globals::localPlayer->moveType() != MOVETYPE_LADDER &&
-        Globals::localPlayer->moveType() != MOVETYPE_NOCLIP &&
-        (Globals::localPlayer->flags() & FL_ONGROUND || Globals::localPlayer->flags() & FL_PARTIALGROUND) && // Predicting we are going to hit the ground
-        !(storedFlags & FL_ONGROUND || storedFlags & FL_PARTIALGROUND)) {
-        cmd->buttons |= IN_DUCK;
-        cmd->buttons &= ~IN_JUMP;
+            Menu::CustomWidgets::isKeyDown(CONFIGINT("Misc>Misc>Movement>Jump Bug Key")) &&
+            Globals::localPlayer &&
+            Globals::localPlayer->moveType() != MOVETYPE_LADDER &&
+            Globals::localPlayer->moveType() != MOVETYPE_NOCLIP) {
+        float max_radias = M_PI * 2;
+		float step = max_radias / 128;
+		float xThick = 23;
+        if (Globals::localPlayer->flags() & FL_ONGROUND) {
+            bool unduck = cmd->buttons &= ~IN_DUCK;
+            if (unduck) {
+                cmd->buttons &= ~IN_DUCK;
+                cmd->buttons |= IN_JUMP;
+                unduck = false;
+            }
+            Vector pos = Globals::localPlayer->origin();
+            for (float a = 0.f; a < max_radias; a += step) {
+                Vector pt;
+                pt.x = (xThick * cos(a)) + pos.x;
+                pt.y = (xThick * sin(a)) + pos.y;
+                pt.z = pos.z;
+
+
+                Vector pt2 = pt;
+                pt2.z -= 8192;
+
+                Trace trace;
+
+                Ray ray;
+                ray.Init(pt, pt2);
+
+                TraceFilter flt;
+                flt.pSkip = Globals::localPlayer;
+                Interfaces::trace->TraceRay(ray, MASK_PLAYERSOLID, &flt, &trace);
+
+                if (trace.fraction != 1.f && trace.fraction != 0.f) {
+                    cmd->buttons |= IN_DUCK;
+                    cmd->buttons &= ~IN_JUMP;
+                    unduck = true;
+                }
+            }
+            for (float a = 0.f; a < max_radias; a += step) {
+                Vector pt;
+                pt.x = ((xThick - 2.f) * cos(a)) + pos.x;
+                pt.y = ((xThick - 2.f) * sin(a)) + pos.y;
+                pt.z = pos.z;
+
+                Vector pt2 = pt;
+                pt2.z -= 8192;
+
+                Trace trace;
+
+                Ray ray;
+                ray.Init(pt, pt2);
+
+                TraceFilter flt;
+                flt.pSkip = Globals::localPlayer;
+                Interfaces::trace->TraceRay(ray, MASK_PLAYERSOLID, &flt, &trace);
+
+                if (trace.fraction != 1.f && trace.fraction != 0.f) {
+                    cmd->buttons |= IN_DUCK;
+                    cmd->buttons &= ~IN_JUMP;
+                    unduck = true;
+                }
+            }
+            for (float a = 0.f; a < max_radias; a += step) {
+                Vector pt;
+                pt.x = ((xThick - 20.f) * cos(a)) + pos.x;
+                pt.y = ((xThick - 20.f) * sin(a)) + pos.y;
+                pt.z = pos.z;
+
+                Vector pt2 = pt;
+                pt2.z -= 8192;
+
+                Trace trace;
+
+                Ray ray;
+                ray.Init(pt, pt2);
+
+                TraceFilter flt;
+                flt.pSkip = Globals::localPlayer;
+                Interfaces::trace->TraceRay(ray, MASK_PLAYERSOLID, &flt, &trace);
+
+                if (trace.fraction != 1.f && trace.fraction != 0.f) {
+                    cmd->buttons |= IN_DUCK;
+                    cmd->buttons &= ~IN_JUMP;
+                    unduck = true;
+                }
+            }
+        }
     }
 }
 
