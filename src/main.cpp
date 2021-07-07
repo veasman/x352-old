@@ -8,7 +8,7 @@ void MainThread() {
     while (!dlopen("./bin/linux64/serverbrowser_client.so", RTLD_NOLOAD | RTLD_NOW))
         usleep(500*1000);
     try {
-        Log::log(LOG, "Initialising...");
+        Log::log(LOG, "Initializing...");
 
         Config::init();
 
