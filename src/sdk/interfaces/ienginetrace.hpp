@@ -3,6 +3,7 @@
 #include "../sdk.hpp"
 #include "interfaces.hpp"
 #include "../classes/entity.hpp"
+class player_t;
 
 #define   DISPSURF_FLAG_SURFACE           (1<<0)
 #define   DISPSURF_FLAG_WALKABLE          (1<<1)
