@@ -2,7 +2,7 @@
 #include "includes.hpp"
 #include <unistd.h>
 
-/* initialise everything in */
+/* initialize everything in */
 void MainThread() {
     /* if serverbrowser is not open then wait, (serverbrowser is last to be loaded) */
     while (!dlopen("./bin/linux64/serverbrowser_client.so", RTLD_NOLOAD | RTLD_NOW))
@@ -14,17 +14,17 @@ void MainThread() {
 
         /* Initialise interfaces */
         if (!Interfaces::init()) {
-            Log::log(ERR, "Failed to initialise interfaces!");
+            Log::log(ERR, "Failed to initialize interfaces!");
         }
 
         /* Initialise netvars/offsets */
         if (!Netvar::init()) {
-            Log::log(ERR, "Failed to initialise netvars!");
+            Log::log(ERR, "Failed to initialize netvars!");
         }
 
         /* Initialise hooks */
         if (!Hooks::init()) {
-            Log::log(ERR, "Failed to initialise hooks!");
+            Log::log(ERR, "Failed to initialize hooks!");
         }
 
         Features::Notifications::addNotification(ImColor(255, 255, 255), "Successfully injected!");
