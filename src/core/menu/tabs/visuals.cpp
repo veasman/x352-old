@@ -197,10 +197,6 @@ void Menu::drawVisualsTab() {
                 if (ImGui::ButtonSpecial("Update Color Modulation"))
                     Features::ColorModulation::updateColorModulation();
 
-                /*ImGui::TextIndent("NightMode");
-                ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
-                ImGui::SliderInt("##NightMode", &CONFIGINT("Visuals>World>World>Nightmode"), 0, 100);*/
-
                 ImGui::TextIndent("Skybox");
                 ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
                 ImGui::Combo("##Skybox", &CONFIGINT("Visuals>World>World>Skybox"), skyboxes, IM_ARRAYSIZE(skyboxes));
